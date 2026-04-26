@@ -4,6 +4,7 @@ import './globals.css';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Suspense } from 'react';
+import { Analytics } from '@vercel/analytics/next';
 import { SourceToggle } from '@/components/ui/SourceToggle';
 
 const lato = Lato({
@@ -80,6 +81,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </p>
           </div>
         </footer>
+        <Analytics />
       </body>
     </html>
   );
