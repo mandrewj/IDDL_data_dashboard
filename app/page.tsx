@@ -37,7 +37,7 @@ export default async function OverviewPage({ searchParams }: PageProps) {
 
   return (
     <div className="space-y-6">
-      <div className="-mt-2 mb-2 rounded-lg bg-navy-900 px-4 py-3">
+      <div className="-mt-2 mb-2 rounded-lg border border-cream-300 border-l-4 border-l-forest-600 bg-cream-50 px-4 py-3 shadow-leaf">
         <Breadcrumb items={[{ label: 'All Records' }]} />
       </div>
 

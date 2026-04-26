@@ -40,7 +40,7 @@ export function RecordsTable({ records }: { records: OccurrenceRecord[] }) {
   const Th = ({ k, children }: { k: SortKey; children: React.ReactNode }) => (
     <th
       onClick={() => toggleSort(k)}
-      className="cursor-pointer select-none border-b border-slate-200 px-3 py-2 text-left text-[11px] font-semibold uppercase tracking-wide text-slate-600 hover:text-slate-900"
+      className="cursor-pointer select-none border-b border-cream-300 px-3 py-2 text-left text-[11px] font-semibold uppercase tracking-wide text-moss-700 hover:text-bark-700"
     >
       <span className="inline-flex items-center gap-1">
         {children}
@@ -51,9 +51,9 @@ export function RecordsTable({ records }: { records: OccurrenceRecord[] }) {
 
   return (
     <div className="space-y-3">
-      <div className="overflow-x-auto rounded-lg border border-slate-200">
+      <div className="overflow-x-auto rounded-lg border border-cream-300">
         <table className="w-full text-sm">
-          <thead className="bg-slate-50">
+          <thead className="bg-cream-100">
             <tr>
               <Th k="date">Date</Th>
               <Th k="source">Source</Th>
@@ -62,22 +62,22 @@ export function RecordsTable({ records }: { records: OccurrenceRecord[] }) {
               <Th k="county">County</Th>
               <Th k="recordedBy">Collector / Observer</Th>
               <Th k="qualityGrade">Quality / Basis</Th>
-              <th className="border-b border-slate-200 px-3 py-2 text-[11px] font-semibold uppercase tracking-wide text-slate-600">Link</th>
+              <th className="border-b border-cream-300 px-3 py-2 text-[11px] font-semibold uppercase tracking-wide text-moss-700">Link</th>
             </tr>
           </thead>
           <tbody>
             {slice.map((r) => (
-              <tr key={r.id} className="border-b border-slate-100 last:border-b-0 hover:bg-slate-50">
-                <td className="whitespace-nowrap px-3 py-2 text-slate-700">{r.date ?? '—'}</td>
+              <tr key={r.id} className="border-b border-cream-200 last:border-b-0 hover:bg-cream-100">
+                <td className="whitespace-nowrap px-3 py-2 text-bark-500">{r.date ?? '—'}</td>
                 <td className="px-3 py-2"><SourceBadge source={r.source} /></td>
-                <td className="px-3 py-2 text-slate-600">{r.lat?.toFixed(4) ?? '—'}</td>
-                <td className="px-3 py-2 text-slate-600">{r.lng?.toFixed(4) ?? '—'}</td>
-                <td className="px-3 py-2 text-slate-600">{r.county ?? '—'}</td>
-                <td className="px-3 py-2 text-slate-600">{r.recordedBy ?? '—'}</td>
-                <td className="px-3 py-2 text-slate-600">{r.qualityGrade ?? r.basisOfRecord ?? '—'}</td>
+                <td className="px-3 py-2 text-moss-700">{r.lat?.toFixed(4) ?? '—'}</td>
+                <td className="px-3 py-2 text-moss-700">{r.lng?.toFixed(4) ?? '—'}</td>
+                <td className="px-3 py-2 text-moss-700">{r.county ?? '—'}</td>
+                <td className="px-3 py-2 text-moss-700">{r.recordedBy ?? '—'}</td>
+                <td className="px-3 py-2 text-moss-700">{r.qualityGrade ?? r.basisOfRecord ?? '—'}</td>
                 <td className="px-3 py-2">
                   {r.externalUrl ? (
-                    <a href={r.externalUrl} target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">
+                    <a href={r.externalUrl} target="_blank" rel="noopener noreferrer" className="text-forest-700 hover:text-forest-800 hover:underline">
                       Open ↗
                     </a>
                   ) : (
@@ -88,7 +88,7 @@ export function RecordsTable({ records }: { records: OccurrenceRecord[] }) {
             ))}
             {slice.length === 0 && (
               <tr>
-                <td colSpan={8} className="px-3 py-6 text-center text-sm text-slate-500">
+                <td colSpan={8} className="px-3 py-6 text-center text-sm text-moss-600">
                   No records to show.
                 </td>
               </tr>
@@ -101,17 +101,17 @@ export function RecordsTable({ records }: { records: OccurrenceRecord[] }) {
           <button
             onClick={() => setPage((p) => Math.max(0, p - 1))}
             disabled={safePage === 0}
-            className={cn('rounded-md border px-2 py-1', safePage === 0 ? 'border-slate-200 text-slate-300' : 'border-slate-300 text-slate-700 hover:bg-slate-50')}
+            className={cn('rounded-md border px-2 py-1', safePage === 0 ? 'border-cream-300 text-moss-300' : 'border-cream-300 text-bark-500 hover:bg-cream-100')}
           >
             ← Prev
           </button>
-          <span className="px-2 text-slate-600">
+          <span className="px-2 text-moss-700">
             Page {safePage + 1} of {pageCount}
           </span>
           <button
             onClick={() => setPage((p) => Math.min(pageCount - 1, p + 1))}
             disabled={safePage >= pageCount - 1}
-            className={cn('rounded-md border px-2 py-1', safePage >= pageCount - 1 ? 'border-slate-200 text-slate-300' : 'border-slate-300 text-slate-700 hover:bg-slate-50')}
+            className={cn('rounded-md border px-2 py-1', safePage >= pageCount - 1 ? 'border-cream-300 text-moss-300' : 'border-cream-300 text-bark-500 hover:bg-cream-100')}
           >
             Next →
           </button>

@@ -9,7 +9,7 @@ import {
   XAxis,
   YAxis,
 } from 'recharts';
-import { colorForKey } from '@/lib/utils/colors';
+import { CHART_TOKENS, colorForKey } from '@/lib/utils/colors';
 
 const MONTH_LABELS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
@@ -21,20 +21,21 @@ interface Props {
 
 export function SeasonalityChart({ data, taxa, height = 280 }: Props) {
   if (!taxa || taxa.length === 0 || !data || data.length === 0) {
-    return <div className="flex h-40 items-center justify-center text-sm text-slate-500">No phenology data</div>;
+    return <div className="flex h-40 items-center justify-center text-sm text-moss-600">No phenology data</div>;
   }
   return (
     <ResponsiveContainer width="100%" height={height}>
       <LineChart data={data} margin={{ top: 8, right: 16, bottom: 8, left: 0 }}>
-        <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
+        <CartesianGrid strokeDasharray="3 4" stroke={CHART_TOKENS.grid} vertical={false} />
         <XAxis
           dataKey="month"
           tickFormatter={(m) => MONTH_LABELS[(m as number) - 1]}
-          tick={{ fontSize: 11, fill: '#475569' }}
+          tick={{ fontSize: 11, fill: CHART_TOKENS.tickLabel }}
+          stroke={CHART_TOKENS.axis}
         />
-        <YAxis tick={{ fontSize: 11, fill: '#475569' }} allowDecimals={false} />
+        <YAxis tick={{ fontSize: 11, fill: CHART_TOKENS.tickLabel }} stroke={CHART_TOKENS.axis} allowDecimals={false} />
         <Tooltip
-          contentStyle={{ fontSize: 12, borderRadius: 8, border: '1px solid #e2e8f0' }}
+          contentStyle={{ fontSize: 12, borderRadius: 8, border: `1px solid ${CHART_TOKENS.grid}`, background: '#FFFFFF', color: CHART_TOKENS.textDark }}
           labelFormatter={(m) => MONTH_LABELS[(m as number) - 1]}
         />
         <Legend wrapperStyle={{ fontSize: 12 }} />

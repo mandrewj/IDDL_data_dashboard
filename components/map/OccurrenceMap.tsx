@@ -65,12 +65,13 @@ export default function OccurrenceMap({
 
   return (
     <div className="relative" style={{ height }}>
-      <div className="absolute right-2 top-2 z-[1000] inline-flex rounded-md border border-slate-200 bg-white text-xs shadow-sm">
+      <div className="absolute right-2 top-2 z-[1000] inline-flex overflow-hidden rounded-md border border-forest-200 bg-cream-50 text-xs shadow-leaf">
         <button
           type="button"
           onClick={() => setLayerMode('points')}
           className={
-            'px-2.5 py-1 ' + (layerMode === 'points' ? 'bg-accent text-white' : 'text-slate-700 hover:bg-slate-50')
+            'px-2.5 py-1 transition-colors ' +
+            (layerMode === 'points' ? 'bg-forest-600 font-medium text-cream-50' : 'text-forest-700 hover:bg-cream-200')
           }
         >
           Points
@@ -79,7 +80,8 @@ export default function OccurrenceMap({
           type="button"
           onClick={() => setLayerMode('heat')}
           className={
-            'px-2.5 py-1 ' + (layerMode === 'heat' ? 'bg-accent text-white' : 'text-slate-700 hover:bg-slate-50')
+            'px-2.5 py-1 transition-colors ' +
+            (layerMode === 'heat' ? 'bg-forest-600 font-medium text-cream-50' : 'text-forest-700 hover:bg-cream-200')
           }
         >
           Heatmap
@@ -114,16 +116,16 @@ export default function OccurrenceMap({
                 <Popup>
                   <div className="text-xs leading-snug">
                     <div className="font-semibold italic">{r.scientificName}</div>
-                    {r.commonName && <div className="text-slate-500">{r.commonName}</div>}
-                    <div className="mt-1 text-slate-600">
+                    {r.commonName && <div className="text-moss-600">{r.commonName}</div>}
+                    <div className="mt-1 text-moss-700">
                       {r.order && <span>{r.order}</span>}
                       {r.family && <span> › {r.family}</span>}
                     </div>
-                    {r.date && <div className="mt-1 text-slate-700">Date: {r.date}</div>}
-                    {r.county && <div className="text-slate-700">County: {r.county}</div>}
-                    <div className="mt-1 text-slate-500">Source: {r.source === 'inat' ? 'iNaturalist' : r.source === 'dwca' ? 'INDD' : 'iNat + INDD'}</div>
+                    {r.date && <div className="mt-1 text-bark-500">Date: {r.date}</div>}
+                    {r.county && <div className="text-bark-500">County: {r.county}</div>}
+                    <div className="mt-1 text-moss-600">Source: {r.source === 'inat' ? 'iNaturalist' : r.source === 'dwca' ? 'INDD' : 'iNat + INDD'}</div>
                     {r.externalUrl && (
-                      <a href={r.externalUrl} target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">
+                      <a href={r.externalUrl} target="_blank" rel="noopener noreferrer" className="text-forest-700 hover:text-forest-800 hover:underline">
                         View on iNaturalist →
                       </a>
                     )}

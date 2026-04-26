@@ -1,56 +1,79 @@
 import type { Metadata } from 'next';
+import { Lato } from 'next/font/google';
 import './globals.css';
+import Image from 'next/image';
 import Link from 'next/link';
 import { Suspense } from 'react';
 import { SourceToggle } from '@/components/ui/SourceToggle';
 
+const lato = Lato({
+  subsets: ['latin'],
+  weight: ['300', '400', '700', '900'],
+  display: 'swap',
+  variable: '--font-lato',
+});
+
 export const metadata: Metadata = {
-  title: 'IDDL Biodiversity Dashboard',
+  title: 'IDDL Biodiversity Data',
   description:
-    'Insect occurrence data from the Insect Diversity and Diagnostics Lab at Purdue, combining iNaturalist observations and specimen records.',
+    'Insect occurrence data from the Insect Diversity and Diagnostics Lab at Purdue, combining iNaturalist observations and INDD specimen records.',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
-      <body className="min-h-screen bg-slate-50 text-slate-900 antialiased">
-        <header className="bg-navy-900 text-white">
-          <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3">
-            <Link href="/" className="flex items-center gap-3">
-              <div
-                aria-hidden
-                className="flex h-9 w-9 items-center justify-center rounded-md bg-slate-700/50 text-xs font-bold tracking-wider text-slate-300"
-              >
-                IDDL
-              </div>
+    <html lang="en" className={lato.variable}>
+      <body className="min-h-screen bg-field-paper font-sans text-bark-700 antialiased">
+        <header className="border-b border-forest-100 bg-cream-50/70 backdrop-blur">
+          <div className="mx-auto flex max-w-7xl flex-col gap-4 px-6 py-6 sm:flex-row sm:items-end sm:justify-between">
+            <Link href="/" className="flex items-start gap-4">
+              <Image
+                src="/indd-logo.png"
+                alt="IDDL logo"
+                width={2507}
+                height={1945}
+                priority
+                className="h-14 w-auto shrink-0 sm:h-16"
+              />
               <div>
-                <div className="text-sm font-semibold leading-tight">IDDL Biodiversity Dashboard</div>
-                <div className="text-[11px] text-slate-400">Insect Diversity & Diagnostics Lab · Purdue University</div>
+                <p className="text-[11px] uppercase tracking-[0.2em] text-moss-600">
+                  Biodiversity Data · Insect Diversity and Diagnostics Lab
+                </p>
+                <h1 className="mt-1 font-serif text-3xl font-semibold tracking-tight text-forest-800 sm:text-4xl">
+                  Insect Records Generated Through IDDL
+                </h1>
               </div>
             </Link>
             <Suspense fallback={null}>
               <SourceToggle />
             </Suspense>
           </div>
+          <div className="botanical-divider" aria-hidden />
         </header>
-        <main className="mx-auto max-w-7xl px-4 py-6">{children}</main>
-        <footer className="mt-10 border-t border-slate-200 bg-white">
-          <div className="mx-auto max-w-7xl px-4 py-6 text-xs text-slate-500">
+
+        <main className="mx-auto max-w-7xl px-6 py-8">{children}</main>
+
+        <footer className="mt-10 border-t border-cream-300 bg-cream-50">
+          <div className="mx-auto max-w-7xl px-6 py-6 text-xs text-moss-600">
             <p>
               iNaturalist data from Project #275094 —{' '}
               <a
                 href="https://www.inaturalist.org/projects/275094"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-accent hover:underline"
+                className="text-forest-700 hover:text-forest-800 hover:underline"
               >
                 iNaturalist.org
               </a>
               .
             </p>
             <p className="mt-1">
-              Specimen data from the IDDL collection via{' '}
-              <a href="https://ecdysis.org" target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">
+              INDD specimen data from the IDDL collection via{' '}
+              <a
+                href="https://ecdysis.org"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-forest-700 hover:text-forest-800 hover:underline"
+              >
                 ecdysis.org
               </a>
               .

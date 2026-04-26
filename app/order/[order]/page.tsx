@@ -34,7 +34,7 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: Props) {
-  return { title: `${decodeOrder(params.order)} — IDDL Biodiversity Dashboard` };
+  return { title: `${decodeOrder(params.order)} — IDDL Biodiversity Data` };
 }
 
 function decodeOrder(slug: string): string {
@@ -56,11 +56,11 @@ export default async function OrderPage({ params, searchParams }: Props) {
   if (records.length === 0) {
     return (
       <div className="space-y-6">
-        <div className="rounded-lg bg-navy-900 px-4 py-3">
+        <div className="rounded-lg border border-cream-300 border-l-4 border-l-forest-600 bg-cream-50 px-4 py-3 shadow-leaf">
           <Breadcrumb items={[{ label: 'All Records', href: '/' }, { label: orderName }]} />
         </div>
         <Panel title={orderName}>
-          <p className="text-sm text-slate-500">No records found for this order with the selected source filter.</p>
+          <p className="text-sm text-moss-600">No records found for this order with the selected source filter.</p>
         </Panel>
       </div>
     );
@@ -84,7 +84,7 @@ export default async function OrderPage({ params, searchParams }: Props) {
 
   return (
     <div className="space-y-6">
-      <div className="rounded-lg bg-navy-900 px-4 py-3">
+      <div className="rounded-lg border border-cream-300 border-l-4 border-l-forest-600 bg-cream-50 px-4 py-3 shadow-leaf">
         <Breadcrumb items={[{ label: 'All Records', href: '/' }, { label: orderName }]} />
       </div>
 

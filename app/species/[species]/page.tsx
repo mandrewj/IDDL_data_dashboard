@@ -25,7 +25,7 @@ export async function generateMetadata({ params }: Props) {
     .split('-')
     .map((p, i) => (i === 0 ? p[0]?.toUpperCase() + p.slice(1) : p))
     .join(' ');
-  return { title: `${decoded} — IDDL Biodiversity Dashboard` };
+  return { title: `${decoded} — IDDL Biodiversity Data` };
 }
 
 export default async function SpeciesPage({ params, searchParams }: Props) {
@@ -42,11 +42,11 @@ export default async function SpeciesPage({ params, searchParams }: Props) {
   if (records.length === 0) {
     return (
       <div className="space-y-6">
-        <div className="rounded-lg bg-navy-900 px-4 py-3">
+        <div className="rounded-lg border border-cream-300 border-l-4 border-l-forest-600 bg-cream-50 px-4 py-3 shadow-leaf">
           <Breadcrumb items={[{ label: 'All Records', href: '/' }, { label: scientificName, italic: true }]} />
         </div>
         <Panel title={scientificName}>
-          <p className="text-sm text-slate-500">No records found for this species with the selected source filter.</p>
+          <p className="text-sm text-moss-600">No records found for this species with the selected source filter.</p>
         </Panel>
       </div>
     );
@@ -83,7 +83,7 @@ export default async function SpeciesPage({ params, searchParams }: Props) {
 
   return (
     <div className="space-y-6">
-      <div className="rounded-lg bg-navy-900 px-4 py-3">
+      <div className="rounded-lg border border-cream-300 border-l-4 border-l-forest-600 bg-cream-50 px-4 py-3 shadow-leaf">
         <Breadcrumb
           items={[
             { label: 'All Records', href: '/' },
@@ -97,9 +97,9 @@ export default async function SpeciesPage({ params, searchParams }: Props) {
       <Panel>
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div>
-            <h1 className="text-3xl font-semibold italic text-slate-900">{scientificName}</h1>
-            {commonName && <p className="mt-1 text-base text-slate-600">{commonName}</p>}
-            <p className="mt-2 text-xs uppercase tracking-wide text-slate-500">
+            <h1 className="text-3xl font-semibold italic text-bark-700">{scientificName}</h1>
+            {commonName && <p className="mt-1 text-base text-moss-700">{commonName}</p>}
+            <p className="mt-2 text-xs uppercase tracking-wide text-moss-600">
               {[orderName, familyName, genusName].filter(Boolean).join(' › ')}
             </p>
           </div>

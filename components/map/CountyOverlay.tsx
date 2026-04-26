@@ -26,10 +26,10 @@ export default function CountyOverlay() {
     <GeoJSON
       data={data}
       style={() => ({
-        color: '#475569',
+        color: '#5f6360',
         weight: 0.6,
         opacity: 0.7,
-        fillColor: '#cbd5e1',
+        fillColor: '#E5E7EB',
         fillOpacity: 0.05,
       })}
     />

@@ -39,7 +39,7 @@ export async function generateMetadata({ params }: Props) {
     .split('-')
     .map((p) => (p.length ? p[0].toUpperCase() + p.slice(1) : p))
     .join(' ');
-  return { title: `${label} — IDDL Biodiversity Dashboard` };
+  return { title: `${label} — IDDL Biodiversity Data` };
 }
 
 export default async function FamilyPage({ params, searchParams }: Props) {
@@ -54,11 +54,11 @@ export default async function FamilyPage({ params, searchParams }: Props) {
   if (records.length === 0) {
     return (
       <div className="space-y-6">
-        <div className="rounded-lg bg-navy-900 px-4 py-3">
+        <div className="rounded-lg border border-cream-300 border-l-4 border-l-forest-600 bg-cream-50 px-4 py-3 shadow-leaf">
           <Breadcrumb items={[{ label: 'All Records', href: '/' }, { label: familyName }]} />
         </div>
         <Panel title={familyName}>
-          <p className="text-sm text-slate-500">No records found for this family with the selected source filter.</p>
+          <p className="text-sm text-moss-600">No records found for this family with the selected source filter.</p>
         </Panel>
       </div>
     );
@@ -90,7 +90,7 @@ export default async function FamilyPage({ params, searchParams }: Props) {
 
   return (
     <div className="space-y-6">
-      <div className="rounded-lg bg-navy-900 px-4 py-3">
+      <div className="rounded-lg border border-cream-300 border-l-4 border-l-forest-600 bg-cream-50 px-4 py-3 shadow-leaf">
         <Breadcrumb
           items={[
             { label: 'All Records', href: '/' },

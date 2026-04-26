@@ -8,12 +8,12 @@ export default function ErrorPage({ error, reset }: { error: Error & { digest?: 
     console.error(error);
   }, [error]);
   return (
-    <div className="rounded-xl border border-red-200 bg-red-50 p-6 text-center">
-      <h2 className="text-lg font-semibold text-red-900">Something went wrong loading occurrence data.</h2>
-      <p className="mt-2 text-sm text-red-700">{error.message}</p>
+    <div className="nature-card p-6 text-center">
+      <h2 className="text-lg font-semibold text-forest-800">Something went wrong loading occurrence data.</h2>
+      <p className="mt-2 text-sm text-moss-600">{error.message}</p>
       <button
         onClick={() => reset()}
-        className="mt-4 rounded-md bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-500"
+        className="mt-4 rounded-md bg-forest-600 px-4 py-2 text-sm font-medium text-cream-50 hover:bg-forest-700"
       >
         Try again
       </button>

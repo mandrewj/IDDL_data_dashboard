@@ -32,7 +32,7 @@ export function SourceToggle() {
     <div
       role="radiogroup"
       aria-label="Data source"
-      className="inline-flex rounded-full border border-slate-200 bg-white p-0.5 text-sm shadow-sm"
+      className="inline-flex overflow-hidden rounded-md border border-forest-200 bg-cream-50 text-sm shadow-leaf"
     >
       {OPTIONS.map((o) => {
         const active = current === o.value;
@@ -44,10 +44,10 @@ export function SourceToggle() {
             aria-checked={active}
             onClick={() => setSource(o.value)}
             className={cn(
-              'rounded-full px-3.5 py-1.5 transition-colors',
+              'px-3.5 py-1.5 transition-colors',
               active
-                ? 'bg-accent text-white shadow-sm'
-                : 'text-slate-700 hover:bg-slate-100'
+                ? 'bg-forest-600 font-medium text-cream-50'
+                : 'text-forest-700 hover:bg-cream-200'
             )}
           >
             {o.label}

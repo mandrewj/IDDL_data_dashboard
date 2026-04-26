@@ -1,25 +1,28 @@
-// 20-color high-contrast accessible palette (Tableau / d3 inspired with adjustments)
+// Taxon-encoding palette. Anchored on the Okabe-Ito colorblind-safe set so
+// chart legends and map markers stay legible without red/green-only contrast.
+// Extended with a few neutral tones to cover ~20 distinct taxa without
+// repeating the most-saturated hues too quickly.
 const PALETTE = [
-  '#1f77b4', // blue
-  '#ff7f0e', // orange
-  '#2ca02c', // green
-  '#d62728', // red
-  '#9467bd', // purple
-  '#8c564b', // brown
-  '#e377c2', // pink
-  '#7f7f7f', // gray
-  '#bcbd22', // olive
-  '#17becf', // cyan
-  '#aec7e8', // light blue
-  '#ffbb78', // light orange
-  '#98df8a', // light green
-  '#ff9896', // light red
-  '#c5b0d5', // light purple
-  '#c49c94', // light brown
-  '#f7b6d2', // light pink
-  '#dbdb8d', // light olive
-  '#9edae5', // light cyan
-  '#393b79', // dark navy
+  '#0072B2', // OK blue
+  '#E69F00', // OK orange
+  '#009E73', // OK green
+  '#CC79A7', // OK purple
+  '#56B4E9', // OK sky blue
+  '#D55E00', // OK vermillion
+  '#F0E442', // OK yellow
+  '#000000', // OK black
+  '#116dff', // brand blue
+  '#1F95B8', // ochre/teal
+  '#5f6360', // moss-600
+  '#0A4FBE', // forest-700
+  '#4A4F50', // moss-700
+  '#7AA5FF', // forest-300
+  '#3FB6D8', // ochre-400
+  '#A5A5A5', // bark-300
+  '#0E7693', // ochre-600
+  '#363A3B', // moss-800
+  '#4783FA', // forest-400
+  '#404342', // bark-500
 ];
 
 function hashString(s: string): number {
@@ -31,7 +34,7 @@ function hashString(s: string): number {
 }
 
 export function colorForKey(key: string): string {
-  if (!key) return PALETTE[7];
+  if (!key) return PALETTE[10];
   return PALETTE[hashString(key.toLowerCase()) % PALETTE.length];
 }
 
@@ -42,3 +45,15 @@ export function paletteColors(n: number): string[] {
 }
 
 export const PALETTE_FULL = PALETTE;
+
+// Chart-axis / grid neutrals — kept centralized so all charts agree.
+export const CHART_TOKENS = {
+  grid: '#E5E7EB', // cream-300
+  axis: '#D9DDDF', // moss-200
+  tickLabel: '#5f6360', // moss-600
+  textDark: '#080808', // bark-700
+  inat: '#116dff', // forest-600
+  indd: '#1F95B8', // ochre-500
+  inatTranslucent: 'rgba(17, 109, 255, 0.85)',
+  inddTranslucent: 'rgba(31, 149, 184, 0.85)',
+};

@@ -6,13 +6,53 @@
   color-scheme: light;
 }
 
-html,
-body {
-  background-color: #f8fafc;
-  color: #0f172a;
+@layer base {
+  /* Headings inherit the same Lato stack as body — no serif treatment. */
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-lato), Lato, Helvetica, Arial, sans-serif;
+    letter-spacing: -0.005em;
+  }
 }
 
-/* Leaflet inside Next.js: ensure default tile layer remains below popups/controls */
+@layer components {
+  /* Card surface — white with a hairline neutral border and a soft shadow. */
+  .nature-card {
+    @apply rounded-lg border border-cream-300 bg-cream-50 shadow-leaf;
+  }
+  .nature-card-accent {
+    @apply relative overflow-hidden;
+  }
+  .nature-card-accent::before {
+    content: '';
+    @apply absolute inset-x-0 top-0 h-[2px] bg-forest-600;
+  }
+
+  /* Section heading underline — short brand-blue rule. */
+  .leaf-rule {
+    @apply relative pb-2;
+  }
+  .leaf-rule::after {
+    content: '';
+    @apply absolute left-0 bottom-0 h-[2px] w-10 bg-forest-600 rounded-full;
+  }
+}
+
+/* Visible focus ring for keyboard nav (brand blue). */
+:where(button, a, input, select, [role='button']):focus-visible {
+  outline: 2px solid theme('colors.forest.600');
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.botanical-divider {
+  background-image: none;
+  background-color: theme('colors.cream.300');
+  height: 1px;
+}
+
+/* Leaflet popup styling — pull into Lato + neutral palette. */
 .leaflet-container {
   font-family: inherit;
 }
@@ -20,25 +60,25 @@ body {
   margin: 8px 12px;
 }
 
-/* Marker cluster default colors */
+/* Marker cluster colors — restate against brand blue + cyan accents. */
 .marker-cluster-small div {
-  background-color: rgba(22, 163, 74, 0.7) !important;
+  background-color: rgba(17, 109, 255, 0.75) !important;
   color: white;
 }
 .marker-cluster-small {
-  background-color: rgba(22, 163, 74, 0.3) !important;
+  background-color: rgba(17, 109, 255, 0.25) !important;
 }
 .marker-cluster-medium div {
-  background-color: rgba(22, 163, 74, 0.85) !important;
+  background-color: rgba(17, 109, 255, 0.9) !important;
   color: white;
 }
 .marker-cluster-medium {
-  background-color: rgba(22, 163, 74, 0.4) !important;
+  background-color: rgba(17, 109, 255, 0.35) !important;
 }
 .marker-cluster-large div {
-  background-color: rgba(15, 23, 42, 0.9) !important;
+  background-color: rgba(10, 79, 190, 0.95) !important;
   color: white;
 }
 .marker-cluster-large {
-  background-color: rgba(15, 23, 42, 0.4) !important;
+  background-color: rgba(10, 79, 190, 0.4) !important;
 }
