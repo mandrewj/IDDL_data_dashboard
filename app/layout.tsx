@@ -23,27 +23,29 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={lato.variable}>
-      <body className="min-h-screen bg-field-paper font-sans text-bark-700 antialiased">
+      <body className="min-h-screen bg-field-paper font-sans text-bark-600 antialiased">
         <header className="border-b border-forest-100 bg-cream-50/70 backdrop-blur">
           <div className="mx-auto flex max-w-7xl flex-col gap-4 px-6 py-6 sm:flex-row sm:items-end sm:justify-between">
-            <Link href="/" className="flex items-start gap-4">
-              <Image
-                src="/indd-logo.png"
-                alt="IDDL logo"
-                width={2507}
-                height={1945}
-                priority
-                className="h-14 w-auto shrink-0 sm:h-16"
-              />
-              <div>
+            <div className="flex items-start gap-4">
+              <a href="https://insectid.org" aria-label="InsectID — insectid.org">
+                <Image
+                  src="/insectID-brand.png"
+                  alt="InsectID"
+                  width={1094}
+                  height={474}
+                  priority
+                  className="h-12 w-auto shrink-0 sm:h-14"
+                />
+              </a>
+              <Link href="/" className="block">
                 <p className="text-[11px] uppercase tracking-[0.2em] text-moss-600">
                   Biodiversity Data · Insect Diversity and Diagnostics Lab
                 </p>
-                <h1 className="mt-1 font-serif text-3xl font-semibold tracking-tight text-forest-800 sm:text-4xl">
+                <h1 className="mt-1 text-3xl font-black tracking-tight text-forest-800 sm:text-4xl">
                   Insect Records Generated Through IDDL
                 </h1>
-              </div>
-            </Link>
+              </Link>
+            </div>
             <Suspense fallback={null}>
               <SourceToggle />
             </Suspense>
@@ -61,7 +63,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 href="https://www.inaturalist.org/projects/275094"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-forest-700 hover:text-forest-800 hover:underline"
+                className="text-forest-600 hover:text-forest-800 hover:underline"
               >
                 iNaturalist.org
               </a>
@@ -73,7 +75,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 href="https://ecdysis.org"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-forest-700 hover:text-forest-800 hover:underline"
+                className="text-forest-600 hover:text-forest-800 hover:underline"
               >
                 ecdysis.org
               </a>

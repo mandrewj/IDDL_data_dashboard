@@ -20,7 +20,7 @@ export function Panel({
         <header className="mb-3 flex items-start justify-between gap-3">
           <div>
             {title && (
-              <h2 className="leaf-rule text-base font-semibold text-forest-800">{title}</h2>
+              <h2 className="leaf-rule text-base font-bold text-forest-800">{title}</h2>
             )}
             {description && (
               <p className="mt-1.5 text-xs text-moss-600">{description}</p>

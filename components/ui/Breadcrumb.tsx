@@ -18,7 +18,7 @@ export function Breadcrumb({ items }: { items: Crumb[] }) {
               {c.href ? (
                 <Link
                   href={c.href}
-                  className="text-forest-700 underline-offset-2 hover:text-forest-800 hover:underline"
+                  className="text-forest-600 underline-offset-2 hover:text-forest-800 hover:underline"
                 >
                   {c.label}
                 </Link>

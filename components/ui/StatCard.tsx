@@ -17,10 +17,10 @@ export function StatCard({ label, value, hint, highlight, className }: StatCardP
         className
       )}
     >
-      <div className="text-[10px] font-medium uppercase tracking-[0.18em] text-moss-600">
+      <div className="text-[11px] font-light uppercase tracking-[0.2em] text-moss-600">
         {label}
       </div>
-      <div className="mt-1 font-serif text-2xl font-semibold tabular-nums text-forest-800">
+      <div className="mt-1 text-2xl font-bold tabular-nums text-forest-800">
         {value}
       </div>
       {hint ? <div className="mt-0.5 text-xs text-moss-600">{hint}</div> : null}

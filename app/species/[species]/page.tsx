@@ -97,7 +97,7 @@ export default async function SpeciesPage({ params, searchParams }: Props) {
       <Panel>
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div>
-            <h1 className="text-3xl font-semibold italic text-bark-700">{scientificName}</h1>
+            <h1 className="text-3xl font-bold italic text-forest-800">{scientificName}</h1>
             {commonName && <p className="mt-1 text-base text-moss-700">{commonName}</p>}
             <p className="mt-2 text-xs uppercase tracking-wide text-moss-600">
               {[orderName, familyName, genusName].filter(Boolean).join(' › ')}

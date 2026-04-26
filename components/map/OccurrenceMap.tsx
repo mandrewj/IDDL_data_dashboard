@@ -71,7 +71,7 @@ export default function OccurrenceMap({
           onClick={() => setLayerMode('points')}
           className={
             'px-2.5 py-1 transition-colors ' +
-            (layerMode === 'points' ? 'bg-forest-600 font-medium text-cream-50' : 'text-forest-700 hover:bg-cream-200')
+            (layerMode === 'points' ? 'bg-forest-600 font-medium text-cream-50' : 'text-forest-600 hover:bg-cream-200')
           }
         >
           Points
@@ -81,7 +81,7 @@ export default function OccurrenceMap({
           onClick={() => setLayerMode('heat')}
           className={
             'px-2.5 py-1 transition-colors ' +
-            (layerMode === 'heat' ? 'bg-forest-600 font-medium text-cream-50' : 'text-forest-700 hover:bg-cream-200')
+            (layerMode === 'heat' ? 'bg-forest-600 font-medium text-cream-50' : 'text-forest-600 hover:bg-cream-200')
           }
         >
           Heatmap
@@ -125,7 +125,7 @@ export default function OccurrenceMap({
                     {r.county && <div className="text-bark-500">County: {r.county}</div>}
                     <div className="mt-1 text-moss-600">Source: {r.source === 'inat' ? 'iNaturalist' : r.source === 'dwca' ? 'INDD' : 'iNat + INDD'}</div>
                     {r.externalUrl && (
-                      <a href={r.externalUrl} target="_blank" rel="noopener noreferrer" className="text-forest-700 hover:text-forest-800 hover:underline">
+                      <a href={r.externalUrl} target="_blank" rel="noopener noreferrer" className="text-forest-600 hover:text-forest-800 hover:underline">
                         View on iNaturalist →
                       </a>
                     )}

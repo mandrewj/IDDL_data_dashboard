@@ -9,7 +9,7 @@ export default function ErrorPage({ error, reset }: { error: Error & { digest?: 
   }, [error]);
   return (
     <div className="nature-card p-6 text-center">
-      <h2 className="text-lg font-semibold text-forest-800">Something went wrong loading occurrence data.</h2>
+      <h2 className="text-lg font-bold text-forest-800">Something went wrong loading occurrence data.</h2>
       <p className="mt-2 text-sm text-moss-600">{error.message}</p>
       <button
         onClick={() => reset()}

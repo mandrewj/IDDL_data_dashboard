@@ -84,15 +84,6 @@ const config: Config = {
           'system-ui',
           'sans-serif',
         ],
-        serif: [
-          'var(--font-lato)',
-          'Lato',
-          'Helvetica',
-          'Arial',
-          'ui-sans-serif',
-          'system-ui',
-          'sans-serif',
-        ],
       },
       backgroundImage: {
         'field-paper': 'linear-gradient(180deg, #FFFFFF 0%, #F8F9FA 100%)',

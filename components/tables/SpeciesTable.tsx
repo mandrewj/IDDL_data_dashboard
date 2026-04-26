@@ -100,7 +100,7 @@ export function SpeciesTable({ rows, hideTaxonomy }: { rows: SpeciesRow[]; hideT
               <tr key={r.scientificName} className="border-b border-cream-200 last:border-b-0 hover:bg-cream-100">
                 <td className="px-3 py-2 text-moss-600">{safePage * PAGE_SIZE + i + 1}</td>
                 <td className="px-3 py-2">
-                  <Link href={`/species/${speciesSlug(r.scientificName)}`} className="italic text-bark-700 hover:text-forest-700 hover:underline">
+                  <Link href={`/species/${speciesSlug(r.scientificName)}`} className="italic text-bark-600 hover:text-forest-600 hover:underline">
                     {r.scientificName}
                   </Link>
                   {r.rank !== 'species' && r.rank !== 'subspecies' && (

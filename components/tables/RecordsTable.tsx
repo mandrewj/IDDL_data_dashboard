@@ -77,7 +77,7 @@ export function RecordsTable({ records }: { records: OccurrenceRecord[] }) {
                 <td className="px-3 py-2 text-moss-700">{r.qualityGrade ?? r.basisOfRecord ?? '—'}</td>
                 <td className="px-3 py-2">
                   {r.externalUrl ? (
-                    <a href={r.externalUrl} target="_blank" rel="noopener noreferrer" className="text-forest-700 hover:text-forest-800 hover:underline">
+                    <a href={r.externalUrl} target="_blank" rel="noopener noreferrer" className="text-forest-600 hover:text-forest-800 hover:underline">
                       Open ↗
                     </a>
                   ) : (

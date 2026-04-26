@@ -47,7 +47,7 @@ export function SourceToggle() {
               'px-3.5 py-1.5 transition-colors',
               active
                 ? 'bg-forest-600 font-medium text-cream-50'
-                : 'text-forest-700 hover:bg-cream-200'
+                : 'text-forest-600 hover:bg-cream-200'
             )}
           >
             {o.label}
