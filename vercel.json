@@ -1,0 +1,17 @@
+{
+  "framework": "nextjs",
+  "buildCommand": "npm run build",
+  "devCommand": "npm run dev",
+  "installCommand": "npm install",
+  "functions": {
+    "app/api/dwca/route.ts": {
+      "maxDuration": 60
+    },
+    "app/api/inaturalist/route.ts": {
+      "maxDuration": 60
+    },
+    "app/api/records/route.ts": {
+      "maxDuration": 30
+    }
+  }
+}

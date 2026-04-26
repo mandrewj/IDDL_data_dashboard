@@ -1,0 +1,44 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+html,
+body {
+  background-color: #f8fafc;
+  color: #0f172a;
+}
+
+/* Leaflet inside Next.js: ensure default tile layer remains below popups/controls */
+.leaflet-container {
+  font-family: inherit;
+}
+.leaflet-popup-content {
+  margin: 8px 12px;
+}
+
+/* Marker cluster default colors */
+.marker-cluster-small div {
+  background-color: rgba(22, 163, 74, 0.7) !important;
+  color: white;
+}
+.marker-cluster-small {
+  background-color: rgba(22, 163, 74, 0.3) !important;
+}
+.marker-cluster-medium div {
+  background-color: rgba(22, 163, 74, 0.85) !important;
+  color: white;
+}
+.marker-cluster-medium {
+  background-color: rgba(22, 163, 74, 0.4) !important;
+}
+.marker-cluster-large div {
+  background-color: rgba(15, 23, 42, 0.9) !important;
+  color: white;
+}
+.marker-cluster-large {
+  background-color: rgba(15, 23, 42, 0.4) !important;
+}
