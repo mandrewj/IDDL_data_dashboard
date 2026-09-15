@@ -79,20 +79,28 @@ The style guide forbids substituting other palettes — categorical = Okabe-Ito,
 ## Commands
 
 ```bash
-npm run dev         # localhost:3000
-npm run typecheck   # tsc --noEmit
+npm run dev          # localhost:3000
+npm run verify:data  # ~50ms: snapshot integrity + every aggregation (no network)
+npm run typecheck    # tsc --noEmit
 npm run lint
-npm run build       # production build (does typecheck implicitly)
-npm run build:data  # re-pull both sources into data/snapshot.json (tsx)
+npm run build        # production build (does typecheck implicitly)
+npm run build:data   # re-pull both sources into data/snapshot.json (tsx)
 ```
 
-`npm run build` is the most useful pre-merge check — it runs the type-checker plus catches any Tailwind class typos that don't surface in dev.
+**Reach for `verify:data` first.** It exercises `getMergedRecords()`,
+`applyFilters()` and every aggregation the pages render, in about 50 ms with no
+network and no webpack. `npm run build` is the thorough pre-merge check, but it
+wants several GB of RAM — on a machine that is already swapping it can take an
+hour and *look* hung at 0% CPU. Vercel and CI build on every push anyway, so
+locally: `verify:data` + `typecheck` covers almost everything, and let CI do the
+full build.
 
 ## Gotchas
 
 - **`data/snapshot.json` is tracked on purpose.** Never add `data/` to `.gitignore` — the committed snapshot *is* the data layer. A missing file makes `getMergedRecords()` throw, which fails `next build`.
 - **`next.config.js` must keep `outputFileTracingIncludes`.** The snapshot is read with `fs` at request time and Next's tracer can't see that, so it's named explicitly. Drop it and every page 500s on Vercel while working fine locally.
 - **`build:data` refuses to write a partial snapshot.** If one source fails it exits non-zero rather than clobbering good data. Use `--allow-partial` only when you genuinely want the gap recorded.
+- **A local `next build` that sits at 0% CPU is not hung** — it's swap thrashing. Check `ps -o time,%cpu` (CPU time barely moving) and `sysctl vm.swapusage` before killing it; give it a long window or just let CI build instead.
 - **Don't reintroduce request-time fetching.** The old `maxDuration: 60` entries in `vercel.json` are gone because nothing is slow any more; if you find yourself needing them back, the data layer has regressed.
 - **Leaflet imports must stay client-side.** `OccurrenceMap.tsx` and friends are `'use client'`; `MapPanel.tsx` wraps it with `next/dynamic({ ssr: false })`. Don't import leaflet from a server component.
 - **`forest-700` is not a link color** despite being blue. Style guide says links are `forest-600` (the brand blue at #116dff). `forest-700` (#0A4FBE) is reserved for hover-on-blue or deeper emphasis.

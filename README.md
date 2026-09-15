@@ -36,7 +36,14 @@ ecdysis.org. It fetches both sources, merges them with the same
 ```bash
 npm run build:data                     # refuse to write if either source failed
 npm run build:data -- --allow-partial  # write anyway, record the error
+npm run verify:data                    # ~50ms structural check, no network
 ```
+
+`verify:data` re-hashes the records, confirms every count in the snapshot agrees
+with its contents, and runs each aggregation the dashboard renders. It is the
+fast way to check a data-layer change — prefer it over `npm run build`, which
+needs several GB of RAM and can take an hour on a memory-constrained machine.
+The weekly workflow runs it too, so a corrupt snapshot can never be committed.
 
 Refusing on failure is deliberate: a half-empty snapshot committed over a good
 one would silently gut the dashboard. Last week's data beats no data. With

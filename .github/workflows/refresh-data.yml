@@ -51,6 +51,11 @@ jobs:
             npm run build:data
           fi
 
+      # Cheap structural check on what we just built: catches a corrupt or
+      # internally inconsistent snapshot before it can be committed.
+      - name: Verify snapshot
+        run: npm run verify:data
+
       - name: Commit and push
         if: steps.build.outputs.changed == 'true'
         run: |
