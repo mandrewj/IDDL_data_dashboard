@@ -38,12 +38,27 @@ Default link: `text-forest-600`. Default heading: `text-forest-800`. Default bod
 
 ## Data flow
 
-1. `lib/data/records.ts::getMergedRecords()` is the single entry point. It calls `loadInat()` and `loadDwca()` in parallel, merges, and caches.
-2. **Two cache layers**:
-   - In-process `Map` cache, 30 min TTL (`CACHE_TTL_MS` in `records.ts`) — survives across requests on the same warm instance.
-   - Next.js `revalidate` on each page (6 h on `/`, 24 h on `/species/[species]`).
-3. If one source errors, the other still renders; the error is surfaced via `<SourceErrorBanner>` from `meta.sourceErrors`.
-4. Every page accepts `?source=inat|dwca|all` and threads it through `applyFilters()` (`lib/parsers/recordMerger.ts`). The `<SourceToggle>` in the header writes that param.
+**The app never fetches upstream at request time.** Both sources are pulled once
+a week and committed to the repo as `data/snapshot.json`.
+
+1. `scripts/build-data.ts` (`npm run build:data`) is the *only* code that talks
+   to iNaturalist or ecdysis.org. It fetches, merges via `mergeRecords()`, and
+   writes the snapshot. Run weekly by `.github/workflows/refresh-data.yml`.
+2. `lib/data/snapshot.ts` holds the shared on-disk contract (`DataSnapshot`,
+   `SNAPSHOT_VERSION`, `SNAPSHOT_RELATIVE_PATH`). Writer and reader both import
+   it — change the shape there and bump the version.
+3. `lib/data/records.ts::getMergedRecords()` is still the single entry point for
+   pages, but it now reads the snapshot off disk. Cached per instance with no
+   TTL, because the file cannot change within a deployment.
+4. If a source failed during the refresh, its error is stored in the snapshot and
+   still surfaces through `<SourceErrorBanner>` via `meta.sourceErrors` — that
+   path is unchanged.
+5. Every page accepts `?source=inat|dwca|all` and threads it through
+   `applyFilters()` (`lib/parsers/recordMerger.ts`). The `<SourceToggle>` in the
+   header writes that param.
+
+`meta.fetchedAt` now means "when the snapshot was built", and is shown in the
+footer by `<DataFreshness>`.
 
 `OccurrenceRecord.source` is `'inat' | 'dwca' | 'both'` — `'both'` means the merger matched the same specimen across the two sources by `(scientificName, date, lat, lng)`.
 
@@ -64,17 +79,21 @@ The style guide forbids substituting other palettes — categorical = Okabe-Ito,
 ## Commands
 
 ```bash
-npm run dev        # localhost:3000
-npm run typecheck  # tsc --noEmit
+npm run dev         # localhost:3000
+npm run typecheck   # tsc --noEmit
 npm run lint
-npm run build      # production build (does typecheck implicitly)
+npm run build       # production build (does typecheck implicitly)
+npm run build:data  # re-pull both sources into data/snapshot.json (tsx)
 ```
 
 `npm run build` is the most useful pre-merge check — it runs the type-checker plus catches any Tailwind class typos that don't surface in dev.
 
 ## Gotchas
 
-- **First request is slow.** Cold cache pulls ~1 MB of paginated iNat JSON (rate-limited to ~1 req/s by the iNat parser) plus a ~400 KB DwC-A zip. `vercel.json` sets `maxDuration: 60` on the affected API routes for this reason — don't lower it.
+- **`data/snapshot.json` is tracked on purpose.** Never add `data/` to `.gitignore` — the committed snapshot *is* the data layer. A missing file makes `getMergedRecords()` throw, which fails `next build`.
+- **`next.config.js` must keep `outputFileTracingIncludes`.** The snapshot is read with `fs` at request time and Next's tracer can't see that, so it's named explicitly. Drop it and every page 500s on Vercel while working fine locally.
+- **`build:data` refuses to write a partial snapshot.** If one source fails it exits non-zero rather than clobbering good data. Use `--allow-partial` only when you genuinely want the gap recorded.
+- **Don't reintroduce request-time fetching.** The old `maxDuration: 60` entries in `vercel.json` are gone because nothing is slow any more; if you find yourself needing them back, the data layer has regressed.
 - **Leaflet imports must stay client-side.** `OccurrenceMap.tsx` and friends are `'use client'`; `MapPanel.tsx` wraps it with `next/dynamic({ ssr: false })`. Don't import leaflet from a server component.
 - **`forest-700` is not a link color** despite being blue. Style guide says links are `forest-600` (the brand blue at #116dff). `forest-700` (#0A4FBE) is reserved for hover-on-blue or deeper emphasis.
 - **Don't restore `font-serif`.** The Tailwind config intentionally has no `serif` family; the InsectID guide says headings use the same Lato stack as body. A previous version used `font-serif` — leftovers may still be lurking; remove them when you find them.

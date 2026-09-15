@@ -1,38 +1,12 @@
+import { readFile } from 'node:fs/promises';
+import path from 'node:path';
+
 import { OccurrenceRecord } from '@/lib/types';
-import { fetchInatProjectObservations } from '@/lib/parsers/inatParser';
-import { parseDwcaArchive } from '@/lib/parsers/dwcaParser';
-import { mergeRecords } from '@/lib/parsers/recordMerger';
+import { DataSnapshot, SNAPSHOT_RELATIVE_PATH, SNAPSHOT_VERSION } from '@/lib/data/snapshot';
 
-const DWCA_URL = process.env.NEXT_PUBLIC_DWCA_URL || 'https://ecdysis.org/content/dwca/MAJC-INDD_DwC-A.zip';
-
-interface SourceLoad {
-  records: OccurrenceRecord[];
-  error?: string;
-}
-
-async function loadInat(): Promise<SourceLoad> {
-  try {
-    const records = await fetchInatProjectObservations();
-    return { records };
-  } catch (err) {
-    return { records: [], error: err instanceof Error ? err.message : String(err) };
-  }
-}
-
-async function loadDwca(): Promise<SourceLoad> {
-  try {
-    const res = await fetch(DWCA_URL, {
-      headers: { 'User-Agent': 'iddl-dashboard/0.1' },
-      next: { revalidate: 86400 },
-    });
-    if (!res.ok) return { records: [], error: `DwCA download failed: ${res.status}` };
-    const buf = Buffer.from(await res.arrayBuffer());
-    const records = await parseDwcaArchive(buf);
-    return { records };
-  } catch (err) {
-    return { records: [], error: err instanceof Error ? err.message : String(err) };
-  }
-}
+// Reads the snapshot that scripts/build-data.ts commits to the repo. Nothing
+// here touches the network — upstream is pulled once a week by CI, not by a
+// visitor's request. See README "Data refresh".
 
 export interface MergedRecordsResult {
   merged: OccurrenceRecord[];
@@ -46,23 +20,60 @@ export interface MergedRecordsResult {
   };
 }
 
-let cache: (MergedRecordsResult & { ts: number }) | null = null;
-const CACHE_TTL_MS = 1000 * 60 * 30;
+// The snapshot cannot change within a deployment, so this caches for the life
+// of the instance — no TTL, unlike the live-fetch version this replaced.
+let snapshotPromise: Promise<DataSnapshot> | null = null;
+
+async function readSnapshot(): Promise<DataSnapshot> {
+  const file = path.join(process.cwd(), SNAPSHOT_RELATIVE_PATH);
+
+  const raw = await readFile(file, 'utf8').catch(() => {
+    throw new Error(
+      `Occurrence snapshot not found at ${SNAPSHOT_RELATIVE_PATH}. ` +
+        'Run `npm run build:data` to generate it, or run the "Weekly data refresh" ' +
+        'GitHub Action and pull the commit it pushes.'
+    );
+  });
+
+  const parsed = JSON.parse(raw) as DataSnapshot;
+  if (parsed.version !== SNAPSHOT_VERSION) {
+    throw new Error(
+      `Snapshot version ${parsed.version} does not match the expected ${SNAPSHOT_VERSION}. ` +
+        'Re-run `npm run build:data`.'
+    );
+  }
+  if (!Array.isArray(parsed.records)) {
+    throw new Error('Snapshot is malformed: "records" is not an array.');
+  }
+  return parsed;
+}
+
+/** The raw snapshot, including per-source provenance. Cached per instance. */
+export function getSnapshot(): Promise<DataSnapshot> {
+  if (!snapshotPromise) {
+    snapshotPromise = readSnapshot().catch((err) => {
+      // Don't pin a transient read failure for the life of the instance.
+      snapshotPromise = null;
+      throw err;
+    });
+  }
+  return snapshotPromise;
+}
 
 export async function getMergedRecords(): Promise<MergedRecordsResult> {
-  if (cache && Date.now() - cache.ts < CACHE_TTL_MS) {
-    return { merged: cache.merged, meta: cache.meta };
-  }
-  const [inat, dwca] = await Promise.all([loadInat(), loadDwca()]);
-  const merged = mergeRecords(inat.records, dwca.records);
-  const meta = {
-    total: merged.length,
-    inatCount: merged.filter((r) => r.source === 'inat' || r.source === 'both').length,
-    dwcaCount: merged.filter((r) => r.source === 'dwca' || r.source === 'both').length,
-    bothCount: merged.filter((r) => r.source === 'both').length,
-    sourceErrors: { inat: inat.error, dwca: dwca.error },
-    fetchedAt: new Date().toISOString(),
+  const snapshot = await getSnapshot();
+  return {
+    merged: snapshot.records,
+    meta: {
+      total: snapshot.counts.total,
+      inatCount: snapshot.counts.inat,
+      dwcaCount: snapshot.counts.dwca,
+      bothCount: snapshot.counts.both,
+      sourceErrors: {
+        inat: snapshot.sources.inat.error,
+        dwca: snapshot.sources.dwca.error,
+      },
+      fetchedAt: snapshot.generatedAt,
+    },
   };
-  cache = { merged, meta, ts: Date.now() };
-  return { merged, meta };
 }

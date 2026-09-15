@@ -2,8 +2,12 @@
 
 A multi-level insect occurrence dashboard for the **Insect Diversity and Diagnostics Lab (IDDL)** at Purdue University. Combines two data sources:
 
-- iNaturalist Project [#275094](https://www.inaturalist.org/projects/275094) — live community observations
+- iNaturalist Project [#275094](https://www.inaturalist.org/projects/275094) — community observations
 - IDDL specimen archive served as Darwin Core Archive (DwC-A) from [ecdysis.org](https://ecdysis.org)
+
+Both are pulled **once a week** into `data/snapshot.json`, which is committed to
+the repo and shipped with the app. Nothing is fetched from upstream while
+serving a request — see [Data refresh](#data-refresh).
 
 ## Stack
 
@@ -19,7 +23,43 @@ cp .env.example .env.local
 npm run dev
 ```
 
-The first request will fetch ~1 MB of iNat JSON (paginated, rate-limited to ~1 req/s) and ~400 KB DwC-A zip. Results are cached server-side for 30 min in-process and 6 h / 24 h via Next.js `revalidate`.
+`data/snapshot.json` is committed, so a fresh clone has data immediately and
+pages render in milliseconds. If the file is missing the app fails loudly with
+a message telling you to run `npm run build:data`.
+
+## Data refresh
+
+`scripts/build-data.ts` is the only code that talks to iNaturalist or
+ecdysis.org. It fetches both sources, merges them with the same
+`mergeRecords()` the app uses, and writes `data/snapshot.json`.
+
+```bash
+npm run build:data                     # refuse to write if either source failed
+npm run build:data -- --allow-partial  # write anyway, record the error
+```
+
+Refusing on failure is deliberate: a half-empty snapshot committed over a good
+one would silently gut the dashboard. Last week's data beats no data. With
+`--allow-partial` the failure is stored in the snapshot and the dashboard shows
+its existing `<SourceErrorBanner>`.
+
+### Weekly GitHub Action
+
+`.github/workflows/refresh-data.yml` runs the refresh every **Monday at 09:00
+UTC** (≈5am EDT / 4am EST) and on demand via **workflow_dispatch**. It:
+
+1. Runs `npm run build:data`.
+2. Commits `data/snapshot.json` **only if the records actually changed** — the
+   script hashes the records separately from the `generatedAt` timestamp, so a
+   week with no new observations produces no commit and no redeploy.
+3. Pushes to `main`, which triggers a Vercel deploy.
+
+The job needs no secrets; both sources are public. Two optional repo variables
+override the defaults baked into the code:
+`NEXT_PUBLIC_INAT_PROJECT_ID` and `NEXT_PUBLIC_DWCA_URL`.
+
+To run it by hand: **Actions → Weekly data refresh → Run workflow** (tick
+*allow_partial* to accept a snapshot with one source missing).
 
 ## Deploy to Vercel
 
@@ -27,7 +67,10 @@ The first request will fetch ~1 MB of iNat JSON (paginated, rate-limited to ~1 r
 vercel --prod
 ```
 
-`vercel.json` declares `maxDuration: 60s` on the API routes that fetch upstream sources, which is required for cold-start fetches on Vercel's free tier.
+No route does long-running network work any more, so `vercel.json` no longer
+needs `maxDuration` overrides. `next.config.js` names `data/snapshot.json` in
+`experimental.outputFileTracingIncludes` so Next uploads it alongside the
+serverless functions — without that, every page 500s in production.
 
 ## Routes
 
@@ -37,8 +80,8 @@ vercel --prod
 | `/order/[order]` | Order-level dashboard |
 | `/family/[family]` | Family-level dashboard |
 | `/species/[species]` | Species-level dashboard |
-| `/api/inaturalist` | Cached iNaturalist fetch |
-| `/api/dwca` | Cached DwC-A parse |
+| `/api/inaturalist` | iNaturalist slice of the snapshot (prerendered) |
+| `/api/dwca` | INDD specimen slice of the snapshot (prerendered) |
 | `/api/records` | Unified, filterable merged records |
 
 A `?source=inat|dwca|all` query parameter on any dashboard page filters all panels to the chosen source.

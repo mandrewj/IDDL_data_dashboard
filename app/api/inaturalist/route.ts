@@ -1,19 +1,25 @@
 import { NextResponse } from 'next/server';
-import { fetchInatProjectObservations } from '@/lib/parsers/inatParser';
+import { getSnapshot } from '@/lib/data/records';
 
+// Serves the iNaturalist slice of the weekly snapshot. Nothing is fetched from
+// iNaturalist here — scripts/build-data.ts does that once a week — so this
+// route is fully prerendered.
 export const runtime = 'nodejs';
 export const dynamic = 'force-static';
-export const revalidate = 21600;
 
 export async function GET() {
   try {
-    const records = await fetchInatProjectObservations();
+    const snapshot = await getSnapshot();
+    // 'both' rows are iNaturalist observations that also matched a specimen,
+    // so they belong in this slice too.
+    const records = snapshot.records.filter((r) => r.source === 'inat' || r.source === 'both');
     return NextResponse.json({
       records,
       meta: {
         count: records.length,
-        fetchedAt: new Date().toISOString(),
-        projectId: process.env.NEXT_PUBLIC_INAT_PROJECT_ID || '275094',
+        fetchedAt: snapshot.generatedAt,
+        projectId: snapshot.sources.inat.projectId,
+        sourceError: snapshot.sources.inat.error,
       },
     });
   } catch (err) {

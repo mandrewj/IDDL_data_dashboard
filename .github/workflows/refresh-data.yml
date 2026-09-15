@@ -1,0 +1,71 @@
+name: Weekly data refresh
+
+on:
+  schedule:
+    # Mondays 09:00 UTC ≈ 5am EDT / 4am EST. GitHub can delay scheduled runs
+    # under load; workflow_dispatch always fires immediately.
+    - cron: "0 9 * * 1"
+  workflow_dispatch:
+    inputs:
+      allow_partial:
+        description: "Commit even if one source failed (records the error in the snapshot)"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: refresh-data
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    # The iNat pull is rate-limited to ~1 page/sec and the DwC-A zip is ~400 KB;
+    # a normal run is a couple of minutes. The padding is for a slow upstream.
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      # npm install, not npm ci: this job only needs the script to run, and the
+      # lockfile shouldn't gate a data refresh.
+      - run: npm install --no-audit --no-fund
+
+      - name: Rebuild data snapshot
+        id: build
+        env:
+          # Optional repo variables; the script falls back to its own defaults
+          # when these are unset, so an empty value is safe.
+          NEXT_PUBLIC_INAT_PROJECT_ID: ${{ vars.NEXT_PUBLIC_INAT_PROJECT_ID }}
+          NEXT_PUBLIC_DWCA_URL: ${{ vars.NEXT_PUBLIC_DWCA_URL }}
+        run: |
+          if [ "${{ inputs.allow_partial }}" = "true" ]; then
+            npm run build:data -- --allow-partial
+          else
+            npm run build:data
+          fi
+
+      - name: Commit and push
+        if: steps.build.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/snapshot.json
+          git commit \
+            -m "Auto-refresh occurrence data — ${{ steps.build.outputs.total }} records" \
+            -m "${{ steps.build.outputs.inat }} iNaturalist / ${{ steps.build.outputs.dwca }} INDD specimens / ${{ steps.build.outputs.both }} matched in both. Pulled by .github/workflows/refresh-data.yml."
+          git push
+
+      - name: Report no-op
+        if: steps.build.outputs.changed != 'true'
+        run: echo "Upstream records are byte-identical to the committed snapshot — nothing to commit."
+
+      - name: Warn on partial snapshot
+        if: steps.build.outputs.partial == 'true'
+        run: echo "::warning::One upstream source failed; the snapshot was written with a recorded error and the dashboard will show the source banner."

@@ -35,3 +35,6 @@ next-env.d.ts
 
 # claude code per-machine settings
 .claude/
+
+# NOT ignored, deliberately: data/snapshot.json is the committed weekly data
+# pull that the app reads at runtime. See README "Data refresh".

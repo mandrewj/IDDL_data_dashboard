@@ -2,8 +2,9 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getMergedRecords } from '@/lib/data/records';
 import { applyFilters } from '@/lib/parsers/recordMerger';
 
+// Filters the weekly snapshot per request; the snapshot itself is refreshed
+// by scripts/build-data.ts in CI, so there is no revalidation window here.
 export const runtime = 'nodejs';
-export const revalidate = 3600;
 
 function num(v: string | null): number | undefined {
   if (v === null) return undefined;

@@ -148,9 +148,10 @@ export async function fetchInatProjectObservations(maxPages = 100): Promise<Occu
     url.searchParams.set('order', 'desc');
     url.searchParams.set('order_by', 'created_at');
 
+    // Runs only from scripts/build-data.ts (plain Node), never inside a
+    // request — so no Next.js fetch cache options here.
     const res = await fetch(url.toString(), {
       headers: { Accept: 'application/json', 'User-Agent': 'iddl-dashboard/0.1 (+https://iddl.entm.purdue.edu)' },
-      next: { revalidate: 21600 },
     });
     if (!res.ok) {
       throw new Error(`iNaturalist API responded ${res.status} on page ${page}`);

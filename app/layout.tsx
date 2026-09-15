@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { Suspense } from 'react';
 import { Analytics } from '@vercel/analytics/next';
 import { SourceToggle } from '@/components/ui/SourceToggle';
+import { DataFreshness } from '@/components/ui/DataFreshness';
 
 const lato = Lato({
   subsets: ['latin'],
@@ -81,6 +82,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               </a>
               .
             </p>
+            <DataFreshness />
           </div>
         </footer>
         <Analytics />
