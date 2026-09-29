@@ -15,15 +15,17 @@ export function Panel({
   actions?: ReactNode;
 }) {
   return (
-    <section className={cn('nature-card p-5', className)}>
+    <section className={cn('nature-card p-4', className)}>
       {(title || actions) && (
-        <header className="mb-3 flex items-start justify-between gap-3">
+        <header className="mb-2.5 flex items-start justify-between gap-3">
           <div>
             {title && (
-              <h2 className="leaf-rule text-base font-bold text-forest-800">{title}</h2>
+              <h2 className="leaf-rule text-sm font-bold uppercase tracking-wide text-forest-800">
+                {title}
+              </h2>
             )}
             {description && (
-              <p className="mt-1.5 text-xs text-moss-600">{description}</p>
+              <p className="mt-1 text-[11px] text-moss-600">{description}</p>
             )}
           </div>
           {actions}
