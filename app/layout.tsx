@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Lato } from 'next/font/google';
+import localFont from 'next/font/local';
 import './globals.css';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -8,9 +8,15 @@ import { Analytics } from '@vercel/analytics/next';
 import { SourceToggle } from '@/components/ui/SourceToggle';
 import { DataFreshness } from '@/components/ui/DataFreshness';
 
-const lato = Lato({
-  subsets: ['latin'],
-  weight: ['300', '400', '700', '900'],
+// Bundled TTFs live in public/fonts/. Local fonts sidestep Next's 3s Google
+// Fonts timeout, which flakes on slow connections and blocks compilation.
+const lato = localFont({
+  src: [
+    { path: '../public/fonts/lato-300.ttf', weight: '300', style: 'normal' },
+    { path: '../public/fonts/lato-400.ttf', weight: '400', style: 'normal' },
+    { path: '../public/fonts/lato-700.ttf', weight: '700', style: 'normal' },
+    { path: '../public/fonts/lato-900.ttf', weight: '900', style: 'normal' },
+  ],
   display: 'swap',
   variable: '--font-lato',
 });
