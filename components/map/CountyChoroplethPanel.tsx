@@ -1,5 +1,6 @@
 'use client';
 import dynamic from 'next/dynamic';
+import type { LatLngBoundsLiteral } from 'leaflet';
 import type { CountyCount } from '@/lib/data/aggregations';
 import { SkeletonPanel } from '@/components/ui/SkeletonPanel';
 
@@ -13,6 +14,7 @@ export default function CountyChoroplethPanel(props: {
   height?: number;
   center?: [number, number];
   zoom?: number;
+  bounds?: LatLngBoundsLiteral;
 }) {
   return <CountyChoropleth {...props} />;
 }

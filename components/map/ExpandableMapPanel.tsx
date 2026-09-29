@@ -1,5 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
+import type { LatLngBoundsLiteral } from 'leaflet';
 import MapPanel from './MapPanel';
 import { OccurrenceRecord } from '@/lib/types';
 import { cn } from '@/lib/utils/cn';
@@ -10,6 +11,7 @@ interface Props {
   height?: number;
   center?: [number, number];
   zoom?: number;
+  bounds?: LatLngBoundsLiteral;
   showCounties?: boolean;
 }
 

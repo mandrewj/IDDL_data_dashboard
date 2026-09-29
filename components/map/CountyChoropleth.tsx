@@ -5,7 +5,7 @@ import 'leaflet/dist/leaflet.css';
 import { GeoJSON, MapContainer } from 'react-leaflet';
 import { useEffect, useMemo, useState } from 'react';
 import type { Feature, FeatureCollection } from 'geojson';
-import type { PathOptions } from 'leaflet';
+import type { LatLngBoundsLiteral, PathOptions } from 'leaflet';
 import { normalizeCountyKey, type CountyCount } from '@/lib/data/aggregations';
 
 interface Props {
@@ -13,6 +13,7 @@ interface Props {
   height?: number;
   center?: [number, number];
   zoom?: number;
+  bounds?: LatLngBoundsLiteral;
 }
 
 // Viridis-ish 6-stop ramp — colorblind-friendly for sequential encoding.
@@ -35,6 +36,7 @@ export default function CountyChoropleth({
   height = 380,
   center = [39.9, -86.3],
   zoom = 6,
+  bounds,
 }: Props) {
   const [geo, setGeo] = useState<FeatureCollection | null>(cachedGeo);
 
@@ -86,8 +88,9 @@ export default function CountyChoropleth({
   return (
     <div className="relative" style={{ height }}>
       <MapContainer
-        center={center}
-        zoom={zoom}
+        {...(bounds
+          ? { bounds, boundsOptions: { padding: [8, 8] as [number, number] } }
+          : { center, zoom })}
         style={{ height: '100%', width: '100%', borderRadius: '0.5rem', background: '#F5F4F0' }}
         scrollWheelZoom={false}
         zoomControl

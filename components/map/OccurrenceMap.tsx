@@ -3,6 +3,7 @@ import './leafletIconFix';
 import 'leaflet/dist/leaflet.css';
 
 import { CircleMarker, MapContainer, Popup, TileLayer } from 'react-leaflet';
+import type { LatLngBoundsLiteral } from 'leaflet';
 import MarkerClusterGroup from 'react-leaflet-cluster';
 import { useMemo, useState } from 'react';
 import { OccurrenceRecord } from '@/lib/types';
@@ -19,6 +20,7 @@ interface Props {
   height?: number;
   center?: [number, number];
   zoom?: number;
+  bounds?: LatLngBoundsLiteral;
   showCounties?: boolean;
 }
 
@@ -41,6 +43,7 @@ export default function OccurrenceMap({
   height = 460,
   center = [39.9, -86.3],
   zoom = 7,
+  bounds,
   showCounties = true,
 }: Props) {
   const [layerMode, setLayerMode] = useState<'points' | 'heat'>('points');
@@ -88,8 +91,9 @@ export default function OccurrenceMap({
         </button>
       </div>
       <MapContainer
-        center={center}
-        zoom={zoom}
+        {...(bounds
+          ? { bounds, boundsOptions: { padding: [8, 8] as [number, number] } }
+          : { center, zoom })}
         style={{ height: '100%', width: '100%', borderRadius: '0.5rem' }}
         scrollWheelZoom
       >

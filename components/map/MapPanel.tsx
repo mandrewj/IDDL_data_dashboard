@@ -1,5 +1,6 @@
 'use client';
 import dynamic from 'next/dynamic';
+import type { LatLngBoundsLiteral } from 'leaflet';
 import { OccurrenceRecord } from '@/lib/types';
 import { SkeletonPanel } from '@/components/ui/SkeletonPanel';
 
@@ -14,6 +15,7 @@ export default function MapPanel(props: {
   height?: number;
   center?: [number, number];
   zoom?: number;
+  bounds?: LatLngBoundsLiteral;
   showCounties?: boolean;
 }) {
   return <OccurrenceMap {...props} />;

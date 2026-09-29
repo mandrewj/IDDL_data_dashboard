@@ -48,6 +48,13 @@ export default async function OverviewPage({ searchParams }: PageProps) {
   const inatQuality = qualityGradeBreakdown(records);
   const dwcaBasis = basisOfRecordBreakdown(records);
 
+  // Indiana bounding box — used by both overview maps so Leaflet fits the
+  // state to whatever container aspect ratio the iframe hands us.
+  const INDIANA_BOUNDS = [
+    [37.77, -88.1],
+    [41.77, -84.78],
+  ] as [[number, number], [number, number]];
+
   return (
     <div className="space-y-4">
       <SourceErrorBanner inatError={meta.sourceErrors.inat} dwcaError={meta.sourceErrors.dwca} />
@@ -76,10 +83,10 @@ export default async function OverviewPage({ searchParams }: PageProps) {
 
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
         <Panel title="Occurrences" description="Markers colored by order. Expand for a full-screen view.">
-          <ExpandableMapPanel records={records} colorBy="order" height={520} zoom={7} />
+          <ExpandableMapPanel records={records} colorBy="order" height={440} bounds={INDIANA_BOUNDS} />
         </Panel>
         <Panel title="Records by County" description="Indiana counties shaded by record density (log scale).">
-          <CountyChoroplethPanel counties={countyEntries} height={520} zoom={7} />
+          <CountyChoroplethPanel counties={countyEntries} height={440} bounds={INDIANA_BOUNDS} />
         </Panel>
       </div>
 
