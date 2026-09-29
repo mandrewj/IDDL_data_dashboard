@@ -76,10 +76,10 @@ export default async function OverviewPage({ searchParams }: PageProps) {
 
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
         <Panel title="Occurrences" description="Markers colored by order. Expand for a full-screen view.">
-          <ExpandableMapPanel records={records} colorBy="order" height={380} />
+          <ExpandableMapPanel records={records} colorBy="order" height={520} zoom={7} />
         </Panel>
         <Panel title="Records by County" description="Indiana counties shaded by record density (log scale).">
-          <CountyChoroplethPanel counties={countyEntries} height={380} />
+          <CountyChoroplethPanel counties={countyEntries} height={520} zoom={7} />
         </Panel>
       </div>
 
