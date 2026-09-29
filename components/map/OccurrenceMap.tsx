@@ -95,7 +95,7 @@ export default function OccurrenceMap({
       >
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         {showCounties && <CountyOverlay />}
         {layerMode === 'heat' && heatPoints.length > 0 && <HeatmapLayer points={heatPoints} />}

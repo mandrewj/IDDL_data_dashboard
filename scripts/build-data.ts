@@ -19,6 +19,7 @@ import path from 'node:path';
 import { parseDwcaArchive } from '@/lib/parsers/dwcaParser';
 import { fetchInatProjectObservations } from '@/lib/parsers/inatParser';
 import { mergeRecords } from '@/lib/parsers/recordMerger';
+import { fetchWithRetry } from '@/lib/utils/http';
 import { OccurrenceRecord } from '@/lib/types';
 import {
   DataSnapshot,
@@ -49,7 +50,7 @@ async function loadInat(): Promise<SourceLoad> {
 
 async function loadDwca(): Promise<SourceLoad> {
   try {
-    const res = await fetch(DWCA_URL, { headers: { 'User-Agent': USER_AGENT } });
+    const res = await fetchWithRetry(DWCA_URL, { label: 'DwC-A', headers: { 'User-Agent': USER_AGENT } });
     if (!res.ok) throw new Error(`DwC-A download failed: ${res.status} ${res.statusText}`);
     const records = await parseDwcaArchive(Buffer.from(await res.arrayBuffer()));
     if (records.length === 0) throw new Error('DwC-A archive contained zero usable records');

@@ -1,6 +1,7 @@
 import { OccurrenceRecord } from '@/lib/types';
 import { cleanScientificName } from '@/lib/utils/taxonomy';
 import { isValidCoord, parseDateParts } from '@/lib/utils/geo';
+import { fetchWithRetry } from '@/lib/utils/http';
 import { enrichTaxonomy } from './enrichTaxonomy';
 
 interface InatTaxonAncestor {
@@ -150,7 +151,8 @@ export async function fetchInatProjectObservations(maxPages = 100): Promise<Occu
 
     // Runs only from scripts/build-data.ts (plain Node), never inside a
     // request — so no Next.js fetch cache options here.
-    const res = await fetch(url.toString(), {
+    const res = await fetchWithRetry(url.toString(), {
+      label: `iNaturalist page ${page}`,
       headers: { Accept: 'application/json', 'User-Agent': 'iddl-dashboard/0.1 (+https://iddl.entm.purdue.edu)' },
     });
     if (!res.ok) {
