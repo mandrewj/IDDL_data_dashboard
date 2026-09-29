@@ -2,7 +2,7 @@
 import './leafletIconFix';
 import 'leaflet/dist/leaflet.css';
 
-import { GeoJSON, MapContainer, TileLayer, Tooltip as LeafletTooltip } from 'react-leaflet';
+import { GeoJSON, MapContainer } from 'react-leaflet';
 import { useEffect, useMemo, useState } from 'react';
 import type { Feature, FeatureCollection } from 'geojson';
 import type { PathOptions } from 'leaflet';
@@ -88,14 +88,11 @@ export default function CountyChoropleth({
       <MapContainer
         center={center}
         zoom={zoom}
-        style={{ height: '100%', width: '100%', borderRadius: '0.5rem' }}
+        style={{ height: '100%', width: '100%', borderRadius: '0.5rem', background: '#F5F4F0' }}
         scrollWheelZoom={false}
         zoomControl
+        attributionControl={false}
       >
-        <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-          url="https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png"
-        />
         {geo && (
           <GeoJSON
             data={geo}
