@@ -81,7 +81,7 @@ export default async function OverviewPage({ searchParams }: PageProps) {
         <RecentActivityStrip data={activity} />
       </Panel>
 
-      <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
         <Panel title="Occurrences" description="Markers colored by order. Expand for a full-screen view.">
           <ExpandableMapPanel records={records} colorBy="order" height={440} bounds={INDIANA_BOUNDS} />
         </Panel>
@@ -94,7 +94,7 @@ export default async function OverviewPage({ searchParams }: PageProps) {
         <CumulativeRecordsChart data={cumulative} />
       </Panel>
 
-      <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
         <Panel title="Records by Order" description="Click a bar to drill into an order.">
           <RecordsByTaxonChart data={ordersTop} hrefBase="/order" height={Math.max(300, ordersTop.length * 18 + 40)} />
         </Panel>
@@ -107,7 +107,7 @@ export default async function OverviewPage({ searchParams }: PageProps) {
         <RecordsOverTimeChart data={yearData} />
       </Panel>
 
-      <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
         <Panel title="iNaturalist Quality Grade" description="Research-grade vs. needs-ID vs. casual for the iNat portion.">
           <CategoryDonut data={inatQuality} emptyMessage="No iNat records in this view" />
         </Panel>
