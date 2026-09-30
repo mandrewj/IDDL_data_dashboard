@@ -26,9 +26,9 @@ jobs:
     # a normal run is a couple of minutes. The padding is for a slow upstream.
     timeout-minutes: 30
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
           node-version: 22
           cache: npm
@@ -65,6 +65,20 @@ jobs:
           git commit \
             -m "Auto-refresh occurrence data — ${{ steps.build.outputs.total }} records" \
             -m "${{ steps.build.outputs.inat }} iNaturalist / ${{ steps.build.outputs.dwca }} INDD specimens / ${{ steps.build.outputs.both }} matched in both. Pulled by .github/workflows/refresh-data.yml."
+
+          # main can move during the few-minute pull (a manual push was
+          # rejecting ours with "fetch first"). Replay onto it, but never force
+          # our snapshot over one committed meanwhile — next week's run will
+          # redo it with the newer code.
+          git fetch origin main
+          if ! git rebase origin/main; then
+            git rebase --abort
+            echo "::warning::data/snapshot.json changed on main during this run; skipped the push."
+            exit 0
+          fi
+          # The rebase may have brought in code (e.g. a SNAPSHOT_VERSION bump)
+          # that this snapshot no longer satisfies — check before publishing.
+          npm run verify:data
           git push
 
       - name: Report no-op

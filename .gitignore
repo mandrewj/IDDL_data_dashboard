@@ -1,5 +1,6 @@
 # dependencies
 /node_modules
+/node_modules.nosync
 /.pnp
 .pnp.js
 
@@ -7,7 +8,8 @@
 /coverage
 
 # next.js
-/.next/
+/.next
+/.next.nosync
 /out/
 
 # production
@@ -35,6 +37,9 @@ next-env.d.ts
 
 # claude code per-machine settings
 .claude/
+
+# iCloud: node_modules and .next are symlinks into *.nosync dirs so the
+# Documents sync never offloads them. See CLAUDE.md.
 
 # NOT ignored, deliberately: data/snapshot.json is the committed weekly data
 # pull that the app reads at runtime. See README "Data refresh".
