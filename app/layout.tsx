@@ -5,6 +5,7 @@ import { Suspense } from 'react';
 import { Analytics } from '@vercel/analytics/next';
 import { SourceToggle } from '@/components/ui/SourceToggle';
 import { DataFreshness } from '@/components/ui/DataFreshness';
+import { DataUseLink } from '@/components/ui/DataUseLink';
 
 // Bundled TTFs live in public/fonts/. Local fonts sidestep Next's 3s Google
 // Fonts timeout, which flakes on slow connections and blocks compilation.
@@ -33,7 +34,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={lato.variable}>
       <body className="min-h-screen bg-field-paper font-sans text-bark-600 antialiased">
-        <div className="mx-auto flex max-w-7xl items-center justify-end gap-3 px-4 pt-3">
+        <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3 px-4 pt-3">
+          <DataUseLink />
+          {/* ml-auto keeps the toggle right-aligned when the link is hidden. */}
           <Suspense fallback={null}>
             <SourceToggle />
           </Suspense>

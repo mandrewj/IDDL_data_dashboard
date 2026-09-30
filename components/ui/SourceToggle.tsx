@@ -37,7 +37,7 @@ export function SourceToggle() {
     <div
       role="radiogroup"
       aria-label="Data source"
-      className="inline-flex overflow-hidden rounded-md border border-forest-200 bg-cream-50 text-sm shadow-leaf"
+      className="ml-auto inline-flex overflow-hidden rounded-md border border-forest-200 bg-cream-50 text-sm shadow-leaf"
     >
       {OPTIONS.map((o) => {
         const active = current === o.value;
