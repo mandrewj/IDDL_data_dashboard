@@ -68,6 +68,15 @@ drawing the choropleth). iNat county is always replaced by the lookup;
 obscured iNat observations get none. INDD label counties are kept and only
 blanks are filled. Don't go back to parsing `place_guess`.
 
+**GBIF usage (`/impact`) is a separate pipeline.** `scripts/build-gbif.ts`
+(`npm run build:gbif`) writes `data/gbif-metrics.json`; `lib/data/gbifMetrics.ts`
+holds its contract and reader. Same weekly job, but `continue-on-error` — it
+must never block the occurrence refresh, and pages treat a missing file as
+"not generated yet". GBIF's downloads-by-dataset endpoint silently caps pages
+at 100 rows whatever `limit` says, so paginate by rows returned. The site is
+embedded in a Wix iframe: internal nav must be plain `<Link>` (stays in-frame),
+external links `target="_blank"`.
+
 `OccurrenceRecord.source` is `'inat' | 'dwca' | 'both'` — `'both'` means the merger matched the same specimen across the two sources by `(scientificName, date, lat, lng)`.
 
 ## Charts and colors
@@ -93,6 +102,7 @@ npm run typecheck    # tsc --noEmit
 npm run lint
 npm run build        # production build (does typecheck implicitly)
 npm run build:data   # re-pull both sources into data/snapshot.json (tsx)
+npm run build:gbif   # re-pull GBIF usage metrics into data/gbif-metrics.json (~2 min)
 ```
 
 **Reach for `verify:data` first.** It exercises `getMergedRecords()`,

@@ -56,4 +56,8 @@ export const CHART_TOKENS = {
   indd: '#1F95B8', // ochre-500
   inatTranslucent: 'rgba(17, 109, 255, 0.85)',
   inddTranslucent: 'rgba(31, 149, 184, 0.85)',
+  // Monthly bars + running-total line (GBIF usage charts). Okabe-Ito orange
+  // against the brand blue so the two series never read as one.
+  monthly: '#116dff', // forest-600
+  cumulative: '#E69F00', // OK orange
 };

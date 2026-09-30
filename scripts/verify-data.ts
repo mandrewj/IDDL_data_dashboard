@@ -16,6 +16,7 @@ import { createHash } from 'node:crypto';
 import { getMergedRecords, getSnapshot } from '@/lib/data/records';
 import { applyFilters } from '@/lib/parsers/recordMerger';
 import { SNAPSHOT_VERSION } from '@/lib/data/snapshot';
+import { citationsByMonth, getGbifMetrics, GBIF_METRICS_VERSION } from '@/lib/data/gbifMetrics';
 import {
   buildSpeciesRows,
   computeOverviewMetrics,
@@ -106,6 +107,39 @@ async function main() {
   // so an empty list here means a build that silently prerenders nothing.
   check('static params available', orders.length > 0 && families.length > 0,
     `${orders.length} order + ${families.length} family routes`);
+
+  // --- GBIF usage metrics (/impact) ---------------------------------------
+  // Optional: the dashboard runs without it, so a missing file is a note, not
+  // a failure. A present-but-inconsistent one is a failure.
+  const gbif = await getGbifMetrics();
+  if (!gbif) {
+    console.log('note  data/gbif-metrics.json not found — /impact will show a placeholder');
+  } else {
+    const { downloads, citations } = gbif;
+    check('gbif version matches reader', gbif.version === GBIF_METRICS_VERSION, `v${gbif.version}`);
+    const content = { downloads, citations };
+    const rehash = createHash('sha256').update(JSON.stringify(content)).digest('hex');
+    check('gbif contentHash matches', gbif.contentHash === rehash);
+    const sumEvents = downloads.monthly.reduce((n, m) => n + m.events, 0);
+    const sumRecords = downloads.monthly.reduce((n, m) => n + m.records, 0);
+    check('gbif monthly events sum to total', sumEvents === downloads.totalEvents && sumEvents > 0,
+      `${sumEvents.toLocaleString()} downloads`);
+    check('gbif monthly records sum to total', sumRecords === downloads.totalRecords,
+      `${sumRecords.toLocaleString()} records`);
+    const months = downloads.monthly.map((m) => m.month);
+    check('gbif months contiguous and sorted',
+      months.every((m, i) => i === 0 || m > months[i - 1]) &&
+        months.every((m, i) => {
+          if (i === 0) return true;
+          const [y, mo] = months[i - 1].split('-').map(Number);
+          const next = mo === 12 ? `${y + 1}-01` : `${y}-${String(mo + 1).padStart(2, '0')}`;
+          return m === next;
+        }),
+      `${months[0]} … ${months[months.length - 1]}`);
+    const citeSeries = citationsByMonth(gbif);
+    check('gbif citation series totals', (citeSeries.at(-1)?.cumulative ?? 0) === citations.filter((c) => c.published || c.year).length,
+      `${citations.length} citations`);
+  }
 
   console.log(
     failures === 0

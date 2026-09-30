@@ -51,29 +51,54 @@ jobs:
             npm run build:data
           fi
 
+      # GBIF usage metrics for /impact. Independent of the occurrence pull: if
+      # GBIF is down the script leaves last week's file alone and this step only
+      # warns, so it can never block an occurrence refresh.
+      - name: Refresh GBIF usage metrics
+        id: gbif
+        continue-on-error: true
+        run: npm run build:gbif
+
+      - name: Warn on GBIF failure
+        if: steps.gbif.outcome == 'failure'
+        run: echo "::warning::GBIF metrics refresh failed; data/gbif-metrics.json keeps last week's numbers."
+
       # Cheap structural check on what we just built: catches a corrupt or
       # internally inconsistent snapshot before it can be committed.
       - name: Verify snapshot
         run: npm run verify:data
 
       - name: Commit and push
-        if: steps.build.outputs.changed == 'true'
+        if: steps.build.outputs.changed == 'true' || steps.gbif.outputs.gbif_changed == 'true'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/snapshot.json
+          # Stage only what really changed: build:data rewrites generatedAt even
+          # when the records are identical, and that alone isn't worth a commit.
+          if [ "${{ steps.build.outputs.changed }}" = "true" ]; then
+            git add data/snapshot.json
+            subject="Auto-refresh occurrence data — ${{ steps.build.outputs.total }} records"
+          else
+            git checkout -- data/snapshot.json
+            subject="Auto-refresh GBIF usage metrics"
+          fi
+          if [ "${{ steps.gbif.outputs.gbif_changed }}" = "true" ]; then
+            git add data/gbif-metrics.json
+          else
+            git checkout -- data/gbif-metrics.json
+          fi
           git commit \
-            -m "Auto-refresh occurrence data — ${{ steps.build.outputs.total }} records" \
-            -m "${{ steps.build.outputs.inat }} iNaturalist / ${{ steps.build.outputs.dwca }} INDD specimens / ${{ steps.build.outputs.both }} matched in both. Pulled by .github/workflows/refresh-data.yml."
+            -m "$subject" \
+            -m "${{ steps.build.outputs.inat }} iNaturalist / ${{ steps.build.outputs.dwca }} INDD specimens / ${{ steps.build.outputs.both }} matched in both. GBIF: ${{ steps.gbif.outputs.gbif_downloads || 'n/a' }} downloads, ${{ steps.gbif.outputs.gbif_citations || 'n/a' }} citations. Pulled by .github/workflows/refresh-data.yml."
 
           # main can move during the few-minute pull (a manual push was
           # rejecting ours with "fetch first"). Replay onto it, but never force
-          # our snapshot over one committed meanwhile — next week's run will
+          # our data files over ones committed meanwhile — next week's run will
           # redo it with the newer code.
           git fetch origin main
           if ! git rebase origin/main; then
             git rebase --abort
-            echo "::warning::data/snapshot.json changed on main during this run; skipped the push."
+            echo "::warning::data files changed on main during this run; skipped the push."
             exit 0
           fi
           # The rebase may have brought in code (e.g. a SNAPSHOT_VERSION bump)
@@ -82,8 +107,8 @@ jobs:
           git push
 
       - name: Report no-op
-        if: steps.build.outputs.changed != 'true'
-        run: echo "Upstream records are byte-identical to the committed snapshot — nothing to commit."
+        if: steps.build.outputs.changed != 'true' && steps.gbif.outputs.gbif_changed != 'true'
+        run: echo "Upstream records and GBIF metrics are identical to what's committed — nothing to commit."
 
       - name: Warn on partial snapshot
         if: steps.build.outputs.partial == 'true'

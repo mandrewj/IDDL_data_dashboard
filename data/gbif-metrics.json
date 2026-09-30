@@ -1,0 +1,346 @@
+{
+ "version": 1,
+ "generatedAt": "2026-09-30T01:33:25.987Z",
+ "datasetKey": "d55073b8-f5a0-46e3-89e3-9519c57b0316",
+ "datasetDoi": "10.15468/6tjtrz",
+ "contentHash": "7641cbfddec102835323b30efcbca074dad7c11aad837f03679e3ab2e9cc3179",
+ "downloads": {
+  "totalEvents": 7097,
+  "totalRecords": 12849529,
+  "firstDownload": "2024-08-30T07:52:24.071+00:00",
+  "monthly": [
+   {
+    "month": "2024-08",
+    "events": 6,
+    "records": 1488
+   },
+   {
+    "month": "2024-09",
+    "events": 174,
+    "records": 89079
+   },
+   {
+    "month": "2024-10",
+    "events": 227,
+    "records": 123338
+   },
+   {
+    "month": "2024-11",
+    "events": 280,
+    "records": 127818
+   },
+   {
+    "month": "2024-12",
+    "events": 155,
+    "records": 81370
+   },
+   {
+    "month": "2025-01",
+    "events": 170,
+    "records": 84446
+   },
+   {
+    "month": "2025-02",
+    "events": 191,
+    "records": 116277
+   },
+   {
+    "month": "2025-03",
+    "events": 239,
+    "records": 172011
+   },
+   {
+    "month": "2025-04",
+    "events": 215,
+    "records": 303448
+   },
+   {
+    "month": "2025-05",
+    "events": 256,
+    "records": 406107
+   },
+   {
+    "month": "2025-06",
+    "events": 226,
+    "records": 373541
+   },
+   {
+    "month": "2025-07",
+    "events": 229,
+    "records": 345096
+   },
+   {
+    "month": "2025-08",
+    "events": 238,
+    "records": 420740
+   },
+   {
+    "month": "2025-09",
+    "events": 271,
+    "records": 422540
+   },
+   {
+    "month": "2025-10",
+    "events": 337,
+    "records": 560062
+   },
+   {
+    "month": "2025-11",
+    "events": 279,
+    "records": 618272
+   },
+   {
+    "month": "2025-12",
+    "events": 223,
+    "records": 441891
+   },
+   {
+    "month": "2026-01",
+    "events": 264,
+    "records": 545860
+   },
+   {
+    "month": "2026-02",
+    "events": 295,
+    "records": 678064
+   },
+   {
+    "month": "2026-03",
+    "events": 540,
+    "records": 1178752
+   },
+   {
+    "month": "2026-04",
+    "events": 425,
+    "records": 767657
+   },
+   {
+    "month": "2026-05",
+    "events": 383,
+    "records": 934140
+   },
+   {
+    "month": "2026-06",
+    "events": 374,
+    "records": 1124937
+   },
+   {
+    "month": "2026-07",
+    "events": 343,
+    "records": 861122
+   },
+   {
+    "month": "2026-08",
+    "events": 344,
+    "records": 932774
+   },
+   {
+    "month": "2026-09",
+    "events": 413,
+    "records": 1138699
+   }
+  ]
+ },
+ "citations": [
+  {
+   "id": "6a0a33d0-5431-3230-83ab-c5f39e25e65d",
+   "title": "Differential Phoretic Vector Use Among Sympatric Caenorhabditis Nematodes and an Association With Invasive Nitidulid Beetles in Southwestern Germany",
+   "authors": "Ryan Greenway et al.",
+   "year": 2026,
+   "published": "2026-05-04",
+   "venue": "Ecology and Evolution",
+   "type": "JOURNAL",
+   "peerReviewed": true,
+   "doi": "10.1002/ece3.73510",
+   "url": "https://doi.org/10.1002/ece3.73510"
+  },
+  {
+   "id": "ce2d7ecc-95cc-3880-96fc-fdc7fe9b6de4",
+   "title": "Evaluating the Spatial Synchrony Between the Spiny Shieldbug and the Colorado Potato Beetle Under Climate Change",
+   "authors": "Shuoying Ning et al.",
+   "year": 2026,
+   "published": "2026-03-18",
+   "venue": "Diversity",
+   "type": "JOURNAL",
+   "peerReviewed": true,
+   "doi": "10.3390/d18030184",
+   "url": "https://doi.org/10.3390/d18030184"
+  },
+  {
+   "id": "3ee074f8-ffee-3a15-a9bd-13a39853a5ab",
+   "title": "Global Patterns and Drivers of Bee Diversity and Endemism on Islands",
+   "authors": "Leon Marshall et al.",
+   "year": 2026,
+   "published": "2026-03-03",
+   "venue": "bioRxiv",
+   "type": "WORKING_PAPER",
+   "peerReviewed": false,
+   "doi": "10.64898/2026.02.28.708622",
+   "url": "https://doi.org/10.64898/2026.02.28.708622"
+  },
+  {
+   "id": "61ea9501-2451-3c77-a603-7f6286b1f20b",
+   "title": "Ghost records and unverifiable specimen data hinder bee research: a reply to Cobb et al.",
+   "authors": "Zachary M Portman et al.",
+   "year": 2026,
+   "published": "2026-01-23",
+   "venue": "Annals of the Entomological Society of America",
+   "type": "JOURNAL",
+   "peerReviewed": false,
+   "doi": "10.1093/aesa/saag002",
+   "url": "https://doi.org/10.1093/aesa/saag002"
+  },
+  {
+   "id": "9478b470-b702-3336-befc-42b4e47f2c09",
+   "title": "Cultivated lands: blind spots in global biodiversity data",
+   "authors": "Ruben Remelgado, Christian Levers, Anna F. Cord",
+   "year": 2025,
+   "published": "2025-12-31",
+   "venue": "Trends in Ecology & Evolution",
+   "type": "JOURNAL",
+   "peerReviewed": true,
+   "doi": "10.1016/j.tree.2025.09.017",
+   "url": "https://doi.org/10.1016/j.tree.2025.09.017"
+  },
+  {
+   "id": "0defd714-ec78-3b07-ab24-e8b3de53b002",
+   "title": "Retrieving Information about Taxonomic Expertise from Specimen Data and the Importance of Data Quality for Effective Data Reuse",
+   "authors": "David Fichtmueller et al.",
+   "year": 2025,
+   "published": "2025-12-23",
+   "venue": "Biodiversity Information Science and Standards",
+   "type": "CONFERENCE_PROCEEDINGS",
+   "peerReviewed": true,
+   "doi": "10.3897/biss.9.183181",
+   "url": "https://doi.org/10.3897/biss.9.183181"
+  },
+  {
+   "id": "54f335e4-8481-382d-a941-14120adb4a4d",
+   "title": "Predicting the Number of Coleoptera Species for a State Province in Colombia Using Deep Neural Networks and Open Data",
+   "authors": "Esteban Marentes Herrera, Mario Mora Cardona, Jennifer C. Girón Duque",
+   "year": 2025,
+   "published": "2025-12-17",
+   "venue": "Biodiversity Information Science and Standards",
+   "type": "JOURNAL",
+   "peerReviewed": true,
+   "doi": "10.3897/biss.9.182246",
+   "url": "https://doi.org/10.3897/biss.9.182246"
+  },
+  {
+   "id": "372a8a25-e783-397d-af93-eddc1af0af0a",
+   "title": "MIDS in Practice: Comparing Specimen Digitisation Levels",
+   "authors": "Mathias Dillen et al.",
+   "year": 2025,
+   "published": "2025-12-11",
+   "venue": "Biodiversity Information Science and Standards",
+   "type": "CONFERENCE_PROCEEDINGS",
+   "peerReviewed": true,
+   "doi": "10.3897/biss.9.181898",
+   "url": "https://doi.org/10.3897/biss.9.181898"
+  },
+  {
+   "id": "ad02b5c4-7d74-38f1-91ff-d713a366e6eb",
+   "title": "Welcome to the Homogenocene Trajectories of change in global freshwater fish biodiversity during the Anthropocene: evidence from tropical Asia",
+   "authors": "David Dudgeon, Jia Huan Liew",
+   "year": 2025,
+   "published": "2025-12-02",
+   "type": "WORKING_PAPER",
+   "peerReviewed": false
+  },
+  {
+   "id": "deb9a082-b741-379f-bbeb-bb3ad8c7ce59",
+   "title": "WatchListR: a tool for developing watch-lists of invasive species to inform biosecurity decision-making",
+   "authors": "Philip J. Ivey et al.",
+   "year": 2025,
+   "published": "2025-11-20",
+   "venue": "NeoBiota",
+   "type": "JOURNAL",
+   "peerReviewed": true,
+   "doi": "10.3897/neobiota.104.163164",
+   "url": "https://doi.org/10.3897/neobiota.104.163164"
+  },
+  {
+   "id": "ad6b03c6-556b-3df5-9fb9-cdefcee91ac8",
+   "title": "CanPests V1.0: A reference dataset for arthropod pests of Canada integrating DNA barcodes",
+   "authors": "Sameer Padhye et al.",
+   "year": 2025,
+   "published": "2025-10-16",
+   "venue": "ARPHA Preprints",
+   "type": "WORKING_PAPER",
+   "peerReviewed": false,
+   "doi": "10.3897/arphapreprints.e175083",
+   "url": "https://doi.org/10.3897/arphapreprints.e175083"
+  },
+  {
+   "id": "3856ef8f-c3fb-3856-94e2-0aad43ba3246",
+   "title": "European colonial empires accelerated ant invasions",
+   "authors": "Aymeric Bonnamour, Cleo Bertelsmeier",
+   "year": 2025,
+   "published": "2025-10-10",
+   "venue": "Ecography",
+   "type": "JOURNAL",
+   "peerReviewed": true,
+   "doi": "10.1002/ecog.07887",
+   "url": "https://doi.org/10.1002/ecog.07887"
+  },
+  {
+   "id": "3cef24ab-ca10-3d9c-b0fa-4634f656f2fe",
+   "title": "Understanding the adequacy and representativeness of species distribution data",
+   "authors": "Alice Hughes et al.",
+   "year": 2025,
+   "published": "2025-10-05",
+   "type": "WORKING_PAPER",
+   "peerReviewed": false,
+   "doi": "10.32942/x28s82",
+   "url": "https://doi.org/10.32942/x28s82"
+  },
+  {
+   "id": "8aee1b33-0ff7-325d-bce9-c51a825a7bce",
+   "title": "Biosurveillance of Invasive Southern Corn Rust: Insights Into Recent Migration Patterns and Virulence Variation",
+   "authors": "Yuanjie Li et al.",
+   "year": 2025,
+   "published": "2025-10-01",
+   "venue": "Molecular Plant Pathology",
+   "type": "JOURNAL",
+   "peerReviewed": true,
+   "doi": "10.1111/mpp.70159",
+   "url": "https://doi.org/10.1111/mpp.70159"
+  },
+  {
+   "id": "3c24f683-4957-3ef3-9fd9-dbaf091e4a39",
+   "title": "Beyond spatial bias: understanding the colonial legacies and contemporary social forces shaping biodiversity data",
+   "authors": "Hilary Faxon, Melissa Chapman",
+   "year": 2025,
+   "published": "2025-05-09",
+   "venue": "Environmental Research Letters",
+   "type": "JOURNAL",
+   "peerReviewed": true,
+   "doi": "10.1088/1748-9326/add6b6",
+   "url": "https://doi.org/10.1088/1748-9326/add6b6"
+  },
+  {
+   "id": "dd16c7fc-907c-3472-9d58-a35cec766a2d",
+   "title": "50 years of invertebrate conservation under the United States Endangered Species Act—history and threats to species",
+   "authors": "Vaughn M. Shirey et al.",
+   "year": 2025,
+   "published": "2025-04-01",
+   "venue": "Frontiers in Conservation Science",
+   "type": "JOURNAL",
+   "peerReviewed": true,
+   "doi": "10.3389/fcosc.2025.1505451",
+   "url": "https://doi.org/10.3389/fcosc.2025.1505451"
+  },
+  {
+   "id": "e60bdf60-0ba0-36ea-a252-abde10ef9e25",
+   "title": "Global impact of the COVID-19 lockdown on biodiversity data collection",
+   "authors": "Stephanie Roilo, Jan O. Engler, Anna F. Cord",
+   "year": 2025,
+   "published": "2025-03-13",
+   "venue": "Scientific Reports",
+   "type": "JOURNAL",
+   "peerReviewed": true,
+   "doi": "10.1038/s41598-025-93275-z",
+   "url": "https://doi.org/10.1038/s41598-025-93275-z"
+  }
+ ]
+}

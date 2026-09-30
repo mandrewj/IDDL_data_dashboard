@@ -25,6 +25,7 @@ import { CategoryDonut } from '@/components/charts/CategoryDonut';
 import { SpeciesTable } from '@/components/tables/SpeciesTable';
 import { ExpandableMapPanel } from '@/components/map/ExpandableMapPanel';
 import CountyChoroplethPanel from '@/components/map/CountyChoroplethPanel';
+import { GbifUsageStrip } from '@/components/gbif/GbifUsageStrip';
 
 export const revalidate = 21600;
 
@@ -121,6 +122,8 @@ export default async function OverviewPage({ searchParams }: PageProps) {
       <Panel title="Top Species" description="Sortable, filterable. Click a name for the species page.">
         <SpeciesTable rows={speciesRows} />
       </Panel>
+
+      <GbifUsageStrip />
     </div>
   );
 }

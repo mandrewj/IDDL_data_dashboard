@@ -9,7 +9,8 @@
     "build:data": "tsx scripts/build-data.ts",
     "verify:data": "tsx scripts/verify-data.ts",
     "lint": "next lint",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "build:gbif": "tsx scripts/build-gbif.ts"
   },
   "dependencies": {
     "@vercel/analytics": "^2.0.1",

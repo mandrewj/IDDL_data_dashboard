@@ -50,16 +50,32 @@ one would silently gut the dashboard. Last week's data beats no data. With
 `--allow-partial` the failure is stored in the snapshot and the dashboard shows
 its existing `<SourceErrorBanner>`.
 
+### GBIF usage metrics
+
+`scripts/build-gbif.ts` (`npm run build:gbif`) pulls usage stats for the INDD
+dataset on GBIF ([d55073b8…](https://www.gbif.org/dataset/d55073b8-f5a0-46e3-89e3-9519c57b0316))
+and writes `data/gbif-metrics.json`, which drives `/impact`:
+
+- **Downloads** — `GET /v1/occurrence/download/dataset/{key}`, every page
+  (GBIF caps it at 100 rows/page, so ~70 requests, ~2 min). Aggregated to
+  monthly download events and records downloaded. Every download counts,
+  whatever its status, so totals match the dataset page on GBIF.
+- **Citations** — `GET /v1/literature/search?gbifDatasetKey={key}`.
+
+On failure it leaves the existing file untouched and exits non-zero.
+
 ### Weekly GitHub Action
 
 `.github/workflows/refresh-data.yml` runs the refresh every **Monday at 09:00
 UTC** (≈5am EDT / 4am EST) and on demand via **workflow_dispatch**. It:
 
 1. Runs `npm run build:data`.
-2. Commits `data/snapshot.json` **only if the records actually changed** — the
-   script hashes the records separately from the `generatedAt` timestamp, so a
-   week with no new observations produces no commit and no redeploy.
-3. Pushes to `main`, which triggers a Vercel deploy.
+2. Runs `npm run build:gbif` with `continue-on-error` — a GBIF outage only
+   warns and keeps last week's metrics; it never blocks the occurrence refresh.
+3. Commits `data/snapshot.json` and/or `data/gbif-metrics.json`, **each only if
+   its content actually changed** — both scripts hash content separately from
+   the `generatedAt` timestamp.
+4. Pushes to `main`, which triggers a Vercel deploy.
 
 The job needs no secrets; both sources are public. Two optional repo variables
 override the defaults baked into the code:
@@ -75,7 +91,7 @@ vercel --prod
 ```
 
 No route does long-running network work any more, so `vercel.json` no longer
-needs `maxDuration` overrides. `next.config.js` names `data/snapshot.json` in
+needs `maxDuration` overrides. `next.config.js` names `data/snapshot.json` and `data/gbif-metrics.json` in
 `experimental.outputFileTracingIncludes` so Next uploads it alongside the
 serverless functions — without that, every page 500s in production.
 
@@ -87,6 +103,7 @@ serverless functions — without that, every page 500s in production.
 | `/order/[order]` | Order-level dashboard |
 | `/family/[family]` | Family-level dashboard |
 | `/species/[species]` | Species-level dashboard |
+| `/impact` | GBIF downloads, records downloaded, and citations over time |
 | `/api/inaturalist` | iNaturalist slice of the snapshot (prerendered) |
 | `/api/dwca` | INDD specimen slice of the snapshot (prerendered) |
 | `/api/records` | Unified, filterable merged records |

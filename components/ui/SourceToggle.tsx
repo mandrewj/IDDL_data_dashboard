@@ -11,6 +11,8 @@ const OPTIONS: { value: SourceValue; label: string }[] = [
   { value: 'dwca', label: 'INDD' },
 ];
 
+const NO_SOURCE_FILTER = new Set(['/impact']);
+
 export function SourceToggle() {
   const router = useRouter();
   const pathname = usePathname();
@@ -27,6 +29,9 @@ export function SourceToggle() {
     },
     [params, pathname, router]
   );
+
+  // Pages that don't read occurrence records have nothing to filter.
+  if (NO_SOURCE_FILTER.has(pathname)) return null;
 
   return (
     <div
