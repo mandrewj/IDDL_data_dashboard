@@ -31,6 +31,9 @@ function localTerm(uri: string): string {
   return idx >= 0 ? uri.slice(idx + 1) : uri;
 }
 
+/** Name given to INDD specimens whose scientificName is blank. */
+export const UNDETERMINED_NAME = 'Insecta';
+
 function asArray<T>(v: T | T[] | undefined): T[] {
   if (v === undefined) return [];
   return Array.isArray(v) ? v : [v];
@@ -146,11 +149,14 @@ export async function parseDwcaArchive(zipBuffer: ArrayBuffer | Buffer): Promise
     const occurrenceId = get(row, 'occurrenceID') ?? pick(row, idx['_id']) ?? get(row, 'catalogNumber');
     if (!occurrenceId) continue;
 
+    // INDD is an insect collection, so a specimen with no determination yet
+    // (over half the archive — e.g. every Harmonie State Park sample) is
+    // still an insect. Keep it at class level rather than dropping it.
     const rawSciName = get(row, 'scientificName') ?? '';
-    const cleanedName = cleanScientificName(rawSciName);
-    if (!cleanedName) continue;
+    const cleanedName = cleanScientificName(rawSciName) || UNDETERMINED_NAME;
+    const undetermined = cleanedName === UNDETERMINED_NAME;
 
-    const rank = (get(row, 'taxonRank') ?? '').toLowerCase();
+    const rank = undetermined ? 'class' : (get(row, 'taxonRank') ?? '').toLowerCase();
     const order = get(row, 'order');
     const family = get(row, 'family');
     const genus = get(row, 'genus');

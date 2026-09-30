@@ -58,6 +58,9 @@ async function main() {
   check('meta.dwcaCount correct', meta.dwcaCount === dwcaActual, `${dwcaActual.toLocaleString()}`);
   check('meta.bothCount correct', meta.bothCount === bothActual, `${bothActual.toLocaleString()}`);
   check('every record carries a source', merged.every((r) => r.source === 'inat' || r.source === 'dwca' || r.source === 'both'));
+  const ids = new Set(merged.map((r) => r.id));
+  check('record ids are unique', ids.size === merged.length,
+    ids.size === merged.length ? '' : `${merged.length - ids.size} duplicates`);
   check('every record has an id and name', merged.every((r) => !!r.id && !!r.scientificName));
 
   if (meta.sourceErrors.inat || meta.sourceErrors.dwca) {

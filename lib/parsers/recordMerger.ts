@@ -3,6 +3,9 @@ import { roundLatLng } from '@/lib/utils/geo';
 
 function dedupKey(rec: OccurrenceRecord): string | null {
   if (!rec.scientificName || !rec.date) return null;
+  // A class-level name (undetermined INDD specimens) says nothing about which
+  // animal it is — dozens of them share a trap, day and "Insecta".
+  if (rec.rank === 'class') return null;
   const lat = roundLatLng(rec.lat, 3);
   const lng = roundLatLng(rec.lng, 3);
   if (lat === undefined || lng === undefined) return null;
@@ -12,11 +15,18 @@ function dedupKey(rec: OccurrenceRecord): string | null {
 // Merge records from both sources. When the same biological event appears in both
 // sources (heuristic match on name + date + rounded coords), tag as 'both' and
 // keep the iNat row as the primary (it carries the externalUrl + commonName).
+//
+// Matching is one-to-one: each iNat observation pairs with at most one
+// specimen. Several specimens from one trap share name + date + coords, and
+// letting them all claim the same observation duplicated its id.
 export function mergeRecords(inat: OccurrenceRecord[], dwca: OccurrenceRecord[]): OccurrenceRecord[] {
-  const inatByKey = new Map<string, OccurrenceRecord>();
+  const inatByKey = new Map<string, OccurrenceRecord[]>();
   for (const r of inat) {
     const k = dedupKey(r);
-    if (k && !inatByKey.has(k)) inatByKey.set(k, r);
+    if (!k) continue;
+    const list = inatByKey.get(k);
+    if (list) list.push(r);
+    else inatByKey.set(k, [r]);
   }
 
   const merged: OccurrenceRecord[] = [];
@@ -24,7 +34,7 @@ export function mergeRecords(inat: OccurrenceRecord[], dwca: OccurrenceRecord[])
 
   for (const r of dwca) {
     const k = dedupKey(r);
-    const match = k ? inatByKey.get(k) : undefined;
+    const match = k ? inatByKey.get(k)?.shift() : undefined;
     if (match) {
       matchedInatIds.add(match.id);
       merged.push({
