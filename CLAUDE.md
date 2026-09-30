@@ -60,6 +60,14 @@ a week and committed to the repo as `data/snapshot.json`.
 `meta.fetchedAt` now means "when the snapshot was built", and is shown in the
 footer by `<DataFreshness>`.
 
+**County comes from coordinates, not from the sources.** iNaturalist has no
+county field, so `build:data` runs `assignCounties()` (`lib/utils/countyLookup.ts`)
+— point-in-polygon against `data/indiana-counties-500k.geojson` (Census 500k,
+build-time only; the coarser `public/indiana-counties.geojson` is just for
+drawing the choropleth). iNat county is always replaced by the lookup;
+obscured iNat observations get none. INDD label counties are kept and only
+blanks are filled. Don't go back to parsing `place_guess`.
+
 `OccurrenceRecord.source` is `'inat' | 'dwca' | 'both'` — `'both'` means the merger matched the same specimen across the two sources by `(scientificName, date, lat, lng)`.
 
 ## Charts and colors

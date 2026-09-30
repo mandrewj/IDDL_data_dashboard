@@ -89,8 +89,12 @@ export default function CountyChoropleth({
     <div className="relative" style={{ height }}>
       <MapContainer
         {...(bounds
-          ? { bounds, boundsOptions: { padding: [8, 8] as [number, number] } }
+          ? { bounds, boundsOptions: { padding: [4, 4] as [number, number] } }
           : { center, zoom })}
+        // Fractional zoom lets fitBounds fill the panel; with whole-number
+        // snapping Indiana drops a full level and fills about half of it.
+        zoomSnap={0.25}
+        zoomDelta={0.5}
         style={{ height: '100%', width: '100%', borderRadius: '0.5rem', background: '#F5F4F0' }}
         scrollWheelZoom={false}
         zoomControl

@@ -20,6 +20,7 @@ import {
   buildSpeciesRows,
   computeOverviewMetrics,
   countBy,
+  recordsByCounty,
   recordsByYear,
   seasonalityForTopTaxa,
 } from '@/lib/data/aggregations';
@@ -86,6 +87,17 @@ async function main() {
   check('seasonality', seasonality.series.length > 0 && seasonality.combined.length === 12 &&
     seasonality.series.some((s) => s.counts.some((c) => c > 0)),
     `${seasonality.series.length} series × 12 months`);
+
+  // iNat has no county field; build:data derives it from coordinates. If that
+  // step is skipped the county map silently loses every iNat record.
+  const inatWithCoords = merged.filter((r) => r.source === 'inat' && r.lat !== undefined && !r.coordinatesObscured);
+  const inatWithCounty = inatWithCoords.filter((r) => r.county).length;
+  check('iNat records carry a county', inatWithCounty >= inatWithCoords.length * 0.9,
+    `${inatWithCounty.toLocaleString()} / ${inatWithCoords.length.toLocaleString()} unobscured`);
+  const counties = recordsByCounty(all);
+  const countyInat = Array.from(counties.values()).reduce((n, c) => n + c.inat, 0);
+  check('recordsByCounty includes iNat', counties.size > 0 && countyInat > 0,
+    `${counties.size} counties, ${countyInat.toLocaleString()} iNat records tallied`);
 
   // generateStaticParams() on /order/[order] and /family/[family] reads these,
   // so an empty list here means a build that silently prerenders nothing.

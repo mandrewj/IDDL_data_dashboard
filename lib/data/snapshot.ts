@@ -4,7 +4,9 @@ import { OccurrenceRecord } from '@/lib/types';
 // (lib/data/records.ts). Keep the two in step by importing from here only.
 
 /** Bumped whenever the on-disk shape changes in a way the reader must notice. */
-export const SNAPSHOT_VERSION = 1;
+// v2: county is derived from coordinates at ingest (iNat records had none);
+//     iNat rows gained coordinatesObscured.
+export const SNAPSHOT_VERSION = 2;
 
 /** Repo-relative path; resolved against process.cwd() at build and request time. */
 export const SNAPSHOT_RELATIVE_PATH = 'data/snapshot.json';

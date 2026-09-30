@@ -20,6 +20,7 @@ import { parseDwcaArchive } from '@/lib/parsers/dwcaParser';
 import { fetchInatProjectObservations } from '@/lib/parsers/inatParser';
 import { mergeRecords } from '@/lib/parsers/recordMerger';
 import { fetchWithRetry } from '@/lib/utils/http';
+import { assignCounties, CountyAssignmentStats, createCountyLookup } from '@/lib/utils/countyLookup';
 import { OccurrenceRecord } from '@/lib/types';
 import {
   DataSnapshot,
@@ -30,6 +31,9 @@ import {
 const DWCA_URL =
   process.env.NEXT_PUBLIC_DWCA_URL || 'https://ecdysis.org/content/dwca/MAJC-INDD_DwC-A.zip';
 const PROJECT_ID = process.env.NEXT_PUBLIC_INAT_PROJECT_ID || '275094';
+
+/** Census 500k county polygons; used only here, so it isn't shipped with the app. */
+const COUNTY_BOUNDARIES = 'data/indiana-counties-500k.geojson';
 
 const USER_AGENT = 'iddl-dashboard-refresh/1.0 (+https://insectid.org)';
 
@@ -93,6 +97,23 @@ async function main() {
     );
     process.exit(1);
   }
+
+  // iNat has no county field at all, so derive it from the coordinates before
+  // merging — the merger and every county tally downstream read r.county.
+  const countyLookup = createCountyLookup(
+    JSON.parse(await readFile(path.join(process.cwd(), COUNTY_BOUNDARIES), 'utf8'))
+  );
+  const fmt = (s: CountyAssignmentStats) =>
+    `${s.assigned.toLocaleString()} assigned, ${s.outsideIndiana.toLocaleString()} outside Indiana, ` +
+    `${s.noCoords.toLocaleString()} without coordinates`;
+  const inatCounties = assignCounties(inat.records, countyLookup);
+  const dwcaCounties = assignCounties(dwca.records, countyLookup);
+  console.log('county from coordinates:');
+  console.log(`  iNaturalist: ${fmt(inatCounties)}, ${inatCounties.obscured} obscured (left blank)`);
+  console.log(
+    `  DwC-A (fills blanks only): ${fmt(dwcaCounties)}, ` +
+      `${dwcaCounties.labelDisagrees} labels disagree with coordinates (label kept)`
+  );
 
   const records = mergeRecords(inat.records, dwca.records);
   const counts = {

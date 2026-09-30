@@ -35,6 +35,7 @@ interface InatObservation {
   quality_grade?: string | null;
   uri?: string | null;
   place_ids?: number[];
+  obscured?: boolean;
 }
 
 const INAT_BASE = process.env.INAT_BASE_URL || 'https://api.inaturalist.org/v1';
@@ -80,24 +81,16 @@ function parseLocation(loc?: string | null, geo?: { coordinates: [number, number
   return {};
 }
 
-function extractCounty(placeGuess?: string | null): { state?: string; county?: string } {
-  if (!placeGuess) return {};
-  // iNaturalist place_guess often looks like "City, County, State, US" or "County, State, US"
+// County is deliberately not read from place_guess: scripts/build-data.ts
+// assigns it from the coordinates (lib/utils/countyLookup.ts). Only the state
+// is lifted here, for observations that fall outside Indiana.
+function extractState(placeGuess?: string | null): string | undefined {
+  if (!placeGuess) return undefined;
+  // place_guess often looks like "City, County, State, US" or "County, State, US"
   const tokens = placeGuess.split(',').map((t) => t.trim()).filter(Boolean);
-  // Heuristic: if last token is "US" or "USA", state is second-to-last
   const last = tokens[tokens.length - 1] || '';
   const isUS = /^(US|USA|United States)$/i.test(last);
-  let state: string | undefined;
-  let county: string | undefined;
-  if (isUS && tokens.length >= 2) state = tokens[tokens.length - 2];
-  // Look for explicit "X County"
-  for (const t of tokens) {
-    if (/county$/i.test(t)) {
-      county = t.replace(/\s*county$/i, '');
-      break;
-    }
-  }
-  return { state, county };
+  return isUS && tokens.length >= 2 ? tokens[tokens.length - 2] : undefined;
 }
 
 function obsToRecord(obs: InatObservation): OccurrenceRecord | null {
@@ -111,7 +104,6 @@ function obsToRecord(obs: InatObservation): OccurrenceRecord | null {
   const date = obs.observed_on ?? (obs.time_observed_at ? obs.time_observed_at.slice(0, 10) : undefined);
   const dateParts = parseDateParts(date ?? undefined);
   const { lat, lng } = parseLocation(obs.location, obs.geojson);
-  const place = extractCounty(obs.place_guess);
 
   return enrichTaxonomy({
     id: `inat:${id}`,
@@ -128,8 +120,8 @@ function obsToRecord(obs: InatObservation): OccurrenceRecord | null {
     month: dateParts.month,
     lat,
     lng,
-    stateProvince: place.state,
-    county: place.county,
+    ...(obs.obscured ? { coordinatesObscured: true } : {}),
+    stateProvince: extractState(obs.place_guess),
     qualityGrade: obs.quality_grade ?? undefined,
     externalUrl: obs.uri ?? `https://www.inaturalist.org/observations/${id}`,
   });

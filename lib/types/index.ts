@@ -15,6 +15,8 @@ export interface OccurrenceRecord {
   year?: number;
   lat?: number;
   lng?: number;
+  /** iNat only: the public coordinates are randomized (taxon or user geoprivacy). */
+  coordinatesObscured?: boolean;
   stateProvince?: string;
   county?: string;
   qualityGrade?: string;

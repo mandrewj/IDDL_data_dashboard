@@ -49,11 +49,13 @@ export default async function OverviewPage({ searchParams }: PageProps) {
   const dwcaBasis = basisOfRecordBreakdown(records);
 
   // Indiana bounding box — used by both overview maps so Leaflet fits the
-  // state to whatever container aspect ratio the iframe hands us.
+  // state to whatever container aspect ratio the iframe hands us. Indiana is
+  // ~1.6× taller than wide on screen, so the panels are tall to match.
   const INDIANA_BOUNDS = [
     [37.77, -88.1],
     [41.77, -84.78],
   ] as [[number, number], [number, number]];
+  const MAP_HEIGHT = 620;
 
   return (
     <div className="space-y-4">
@@ -83,10 +85,10 @@ export default async function OverviewPage({ searchParams }: PageProps) {
 
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
         <Panel title="Occurrences" description="Markers colored by order. Expand for a full-screen view.">
-          <ExpandableMapPanel records={records} colorBy="order" height={440} bounds={INDIANA_BOUNDS} />
+          <ExpandableMapPanel records={records} colorBy="order" height={MAP_HEIGHT} bounds={INDIANA_BOUNDS} />
         </Panel>
         <Panel title="Records by County" description="Indiana counties shaded by record density (log scale).">
-          <CountyChoroplethPanel counties={countyEntries} height={440} bounds={INDIANA_BOUNDS} />
+          <CountyChoroplethPanel counties={countyEntries} height={MAP_HEIGHT} bounds={INDIANA_BOUNDS} />
         </Panel>
       </div>
 
