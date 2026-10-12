@@ -1,12 +1,12 @@
 {
  "version": 1,
- "generatedAt": "2026-10-05T18:23:46.068Z",
+ "generatedAt": "2026-10-12T18:59:35.462Z",
  "datasetKey": "d55073b8-f5a0-46e3-89e3-9519c57b0316",
  "datasetDoi": "10.15468/6tjtrz",
- "contentHash": "3fc15036d2067626300003730e0d4d8ea4ba1851d503e1fa92a291f21f78a897",
+ "contentHash": "c62df9b699b183d15ee0b7d25045d4cccef4b88e19b15a4b260b352a35bc36d5",
  "downloads": {
-  "totalEvents": 7165,
-  "totalRecords": 13211456,
+  "totalEvents": 7318,
+  "totalRecords": 13579530,
   "firstDownload": "2024-08-30T07:52:24.071+00:00",
   "monthly": [
    {
@@ -141,8 +141,8 @@
    },
    {
     "month": "2026-10",
-    "events": 49,
-    "records": 298561
+    "events": 202,
+    "records": 666635
    }
   ]
  },
@@ -346,6 +346,15 @@
    "peerReviewed": true,
    "doi": "10.1038/s41598-025-93275-z",
    "url": "https://doi.org/10.1038/s41598-025-93275-z"
+  },
+  {
+   "id": "d953a959-e1c1-35df-8319-bdcd50597ee5",
+   "title": "Espacialización y caracterización de la ruta de Alexander von Humboldt y Aimé Bonpland a través de su trabajo botánico en México (1803-1804)",
+   "authors": "Ariadna Deni Hernández Osorio",
+   "year": 2025,
+   "published": "2025-02-01",
+   "type": "WORKING_PAPER",
+   "peerReviewed": false
   }
  ]
 }
