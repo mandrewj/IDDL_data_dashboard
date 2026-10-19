@@ -1,12 +1,12 @@
 {
  "version": 1,
- "generatedAt": "2026-10-12T18:59:35.462Z",
+ "generatedAt": "2026-10-19T16:29:32.922Z",
  "datasetKey": "d55073b8-f5a0-46e3-89e3-9519c57b0316",
  "datasetDoi": "10.15468/6tjtrz",
- "contentHash": "c62df9b699b183d15ee0b7d25045d4cccef4b88e19b15a4b260b352a35bc36d5",
+ "contentHash": "4204f70d431507e6c3c4662fb1a02a5148de66ed6310a7de3c2f6dd6fa5fc56a",
  "downloads": {
-  "totalEvents": 7318,
-  "totalRecords": 13579530,
+  "totalEvents": 7482,
+  "totalRecords": 13996901,
   "firstDownload": "2024-08-30T07:52:24.071+00:00",
   "monthly": [
    {
@@ -141,8 +141,8 @@
    },
    {
     "month": "2026-10",
-    "events": 202,
-    "records": 666635
+    "events": 366,
+    "records": 1084006
    }
   ]
  },
@@ -158,6 +158,18 @@
    "peerReviewed": true,
    "doi": "10.1002/ece3.73510",
    "url": "https://doi.org/10.1002/ece3.73510"
+  },
+  {
+   "id": "9db51dac-5ab1-3760-aa4c-5329f9c3d7b0",
+   "title": "Predicting Potential Global Distribution of the Invasive Species Aethina tumida Murray (Coleoptera: Nitidulidae), and Its Natural Enemies Steinernema carpocapsae (Weiser, 1955)",
+   "authors": "Li-Fang Cheng et al.",
+   "year": 2026,
+   "published": "2026-04-09",
+   "venue": "Preprints.org",
+   "type": "WORKING_PAPER",
+   "peerReviewed": false,
+   "doi": "10.20944/preprints202604.0546.v1",
+   "url": "https://doi.org/10.20944/preprints202604.0546.v1"
   },
   {
    "id": "ce2d7ecc-95cc-3880-96fc-fdc7fe9b6de4",
