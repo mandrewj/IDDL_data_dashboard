@@ -1,12 +1,12 @@
 {
  "version": 1,
- "generatedAt": "2026-10-19T16:29:32.922Z",
+ "generatedAt": "2026-10-26T16:10:28.800Z",
  "datasetKey": "d55073b8-f5a0-46e3-89e3-9519c57b0316",
  "datasetDoi": "10.15468/6tjtrz",
- "contentHash": "4204f70d431507e6c3c4662fb1a02a5148de66ed6310a7de3c2f6dd6fa5fc56a",
+ "contentHash": "6956a4913701e83de194a303233d79fd098efc18f668a7960e49809659cec085",
  "downloads": {
-  "totalEvents": 7482,
-  "totalRecords": 13996901,
+  "totalEvents": 7604,
+  "totalRecords": 14358028,
   "firstDownload": "2024-08-30T07:52:24.071+00:00",
   "monthly": [
    {
@@ -141,12 +141,24 @@
    },
    {
     "month": "2026-10",
-    "events": 366,
-    "records": 1084006
+    "events": 488,
+    "records": 1445133
    }
   ]
  },
  "citations": [
+  {
+   "id": "86098123-b7b5-3b68-acc4-20bf8b0e5220",
+   "title": "A Global, Taxon‐Stratified, High‐Resolution Sampling‐Effort Dataset From GBIF for Bias‐Aware Ecological Modelling",
+   "authors": "Ahmed El‐Gabbas",
+   "year": 2026,
+   "published": "2026-05-19",
+   "venue": "Diversity and Distributions",
+   "type": "JOURNAL",
+   "peerReviewed": true,
+   "doi": "10.1111/ddi.70205",
+   "url": "https://doi.org/10.1111/ddi.70205"
+  },
   {
    "id": "6a0a33d0-5431-3230-83ab-c5f39e25e65d",
    "title": "Differential Phoretic Vector Use Among Sympatric Caenorhabditis Nematodes and an Association With Invasive Nitidulid Beetles in Southwestern Germany",
