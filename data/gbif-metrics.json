@@ -1,12 +1,12 @@
 {
  "version": 1,
- "generatedAt": "2026-10-26T16:10:28.800Z",
+ "generatedAt": "2026-11-02T19:33:24.275Z",
  "datasetKey": "d55073b8-f5a0-46e3-89e3-9519c57b0316",
  "datasetDoi": "10.15468/6tjtrz",
- "contentHash": "6956a4913701e83de194a303233d79fd098efc18f668a7960e49809659cec085",
+ "contentHash": "7a5b08746d28472bf7430fd41532027e7c10871305c38cf15b376da394314e64",
  "downloads": {
-  "totalEvents": 7604,
-  "totalRecords": 14358028,
+  "totalEvents": 7715,
+  "totalRecords": 14776862,
   "firstDownload": "2024-08-30T07:52:24.071+00:00",
   "monthly": [
    {
@@ -141,12 +141,41 @@
    },
    {
     "month": "2026-10",
-    "events": 488,
-    "records": 1445133
+    "events": 564,
+    "records": 1668517
+   },
+   {
+    "month": "2026-11",
+    "events": 35,
+    "records": 195450
    }
   ]
  },
  "citations": [
+  {
+   "id": "30c3b6d7-532e-328e-a031-523dde021ea0",
+   "title": "Beyond thinning: equalized sampling based on global sampling intensity gradients for species distribution models",
+   "authors": "Brice B. Hanberry",
+   "year": 2026,
+   "published": "2026-06-03",
+   "venue": "Frontiers in Ecology and Evolution",
+   "type": "JOURNAL",
+   "peerReviewed": true,
+   "doi": "10.3389/fevo.2026.1831501",
+   "url": "https://doi.org/10.3389/fevo.2026.1831501"
+  },
+  {
+   "id": "8c3493f6-c0f0-3955-9052-c3f90423ee27",
+   "title": "Predicting the Potential Global Distribution of the Invasive Species Aethina tumida Murray, 1867, and Its Natural Enemy Steinernema carpocapsae (Weiser, 1955)",
+   "authors": "Li-Fang Cheng et al.",
+   "year": 2026,
+   "published": "2026-05-22",
+   "venue": "Insects",
+   "type": "JOURNAL",
+   "peerReviewed": true,
+   "doi": "10.3390/insects17060541",
+   "url": "https://doi.org/10.3390/insects17060541"
+  },
   {
    "id": "86098123-b7b5-3b68-acc4-20bf8b0e5220",
    "title": "A Global, Taxon‐Stratified, High‐Resolution Sampling‐Effort Dataset From GBIF for Bias‐Aware Ecological Modelling",
