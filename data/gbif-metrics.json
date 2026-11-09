@@ -1,12 +1,12 @@
 {
  "version": 1,
- "generatedAt": "2026-11-02T19:33:24.275Z",
+ "generatedAt": "2026-11-09T19:49:37.028Z",
  "datasetKey": "d55073b8-f5a0-46e3-89e3-9519c57b0316",
  "datasetDoi": "10.15468/6tjtrz",
- "contentHash": "7a5b08746d28472bf7430fd41532027e7c10871305c38cf15b376da394314e64",
+ "contentHash": "74367dd20c6e00905a848ac8d14d1b5ae3ed7dbd9b6a8a0115a4f52ba3cd34d9",
  "downloads": {
-  "totalEvents": 7715,
-  "totalRecords": 14776862,
+  "totalEvents": 7820,
+  "totalRecords": 15282895,
   "firstDownload": "2024-08-30T07:52:24.071+00:00",
   "monthly": [
    {
@@ -146,12 +146,33 @@
    },
    {
     "month": "2026-11",
-    "events": 35,
-    "records": 195450
+    "events": 140,
+    "records": 701483
    }
   ]
  },
  "citations": [
+  {
+   "id": "38958c0b-0bfd-37b8-bad6-fb12b9385f44",
+   "title": "D6.1 Biodiversity change",
+   "authors": "Shawn Dove et al.",
+   "year": 2026,
+   "published": "2026-08-31",
+   "type": "REPORT",
+   "peerReviewed": true,
+   "url": "https://b-cubed.eu/storage/app/uploads/public/6a9/a89/0a0/6a9a890a027ef433155766.pdf"
+  },
+  {
+   "id": "13b8edc8-9b21-365c-9303-e3378f881692",
+   "title": "Closing biodiversity data gaps is essential for monitoring Wetlands of International Importance [Policy Brief]",
+   "authors": "Yanina V. Sica et al.",
+   "year": 2026,
+   "published": "2026-07-23",
+   "type": "REPORT",
+   "peerReviewed": false,
+   "doi": "10.5281/zenodo.21506165",
+   "url": "https://doi.org/10.5281/zenodo.21506165"
+  },
   {
    "id": "30c3b6d7-532e-328e-a031-523dde021ea0",
    "title": "Beyond thinning: equalized sampling based on global sampling intensity gradients for species distribution models",
