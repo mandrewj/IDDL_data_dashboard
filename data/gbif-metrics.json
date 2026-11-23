@@ -1,12 +1,12 @@
 {
  "version": 1,
- "generatedAt": "2026-11-16T19:35:00.585Z",
+ "generatedAt": "2026-11-23T21:12:59.763Z",
  "datasetKey": "d55073b8-f5a0-46e3-89e3-9519c57b0316",
  "datasetDoi": "10.15468/6tjtrz",
- "contentHash": "69a3e10b17a8a72ddf1b9cb5a32c29f78ad21a0f42f8f1211a22968ca73a5df6",
+ "contentHash": "5c6f5fbd0ec1bc26672b9a7d5ec98117ac2883974c9c6b82a8957c1fad7145da",
  "downloads": {
-  "totalEvents": 7957,
-  "totalRecords": 15671662,
+  "totalEvents": 8080,
+  "totalRecords": 16139410,
   "firstDownload": "2024-08-30T07:52:24.071+00:00",
   "monthly": [
    {
@@ -146,8 +146,8 @@
    },
    {
     "month": "2026-11",
-    "events": 277,
-    "records": 1090250
+    "events": 400,
+    "records": 1557998
    }
   ]
  },
